@@ -2430,35 +2430,68 @@
   }
 
   function initReveal() {
-    const targets = [
-      ...document.querySelectorAll('.cg-reveal, [data-cg-anim], .cg-stagger-items')
-    ];
-    if (!targets.length) return;
-
     if (reducedMotion.matches || !('IntersectionObserver' in window)) {
-      targets.forEach(el => el.classList.add('is-visible'));
+      document.querySelectorAll('[data-cg-anim], .cg-stagger-items, .cg-reveal').forEach(el => {
+        el.classList.add('is-visible');
+      });
       return;
     }
 
+    // 1. Activar de inmediato los elementos del Hero (#inicio)
+    // para que carguen con gracia al abrir la página sin requerir scroll
+    const heroElements = document.querySelectorAll('#inicio [data-cg-anim], #inicio.cg-reveal');
+    setTimeout(() => {
+      heroElements.forEach(el => el.classList.add('is-visible'));
+    }, 80);
+
+    // 2. Observer individual para cada bloque/elemento del resto de la página
+    // CRÍTICO: No cascada desde la sección para evitar que los bloques se activen
+    // mientras el usuario todavía lee la sección anterior.
     const isMobile = window.innerWidth <= 768;
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         const target = entry.target;
         target.classList.add('is-visible');
-        
-        target.querySelectorAll?.('[data-cg-anim]').forEach(child => {
-          child.classList.add('is-visible');
-        });
-
         observer.unobserve(target);
       });
     }, {
-      threshold: 0.1,
-      rootMargin: isMobile ? '0px 0px -4% 0px' : '0px 0px -10% 0px'
+      threshold: 0.12,
+      // Margen inferior negativo: el elemento debe haber penetrado al menos 80px (desktop)
+      // o 40px (móvil) dentro de la vista activa antes de iniciar su animación.
+      rootMargin: isMobile ? '0px 0px -40px 0px' : '0px 0px -80px 0px'
     });
 
-    targets.forEach(el => observer.observe(el));
+    // Observar cada target animado fuera de #inicio
+    const scrollTargets = document.querySelectorAll(
+      '[data-cg-anim]:not(#inicio [data-cg-anim]), .cg-stagger-items:not(#inicio .cg-stagger-items)'
+    );
+
+    scrollTargets.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      // Si el elemento ya quedó por encima del viewport (debido a scroll previo o enlace ancla),
+      // marcarlo visible de inmediato para no dejar contenido oculto al scrollear hacia arriba.
+      if (rect.bottom <= 0) {
+        el.classList.add('is-visible');
+        return;
+      }
+      observer.observe(el);
+    });
+
+    // Observador opcional para el fondo de cada sección
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        sectionObserver.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.05
+    });
+
+    document.querySelectorAll('.cg-reveal:not(#inicio)').forEach(sec => {
+      sectionObserver.observe(sec);
+    });
 
     let lastScrollY = window.scrollY;
     let scrollTimeout = 0;
