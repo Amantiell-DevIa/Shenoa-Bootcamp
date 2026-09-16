@@ -2450,10 +2450,18 @@
     const isMobile = window.innerWidth <= 768;
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
         const target = entry.target;
-        target.classList.add('is-visible');
-        observer.unobserve(target);
+        if (entry.isIntersecting) {
+          // Entró a la vista (al bajar): activar animación
+          target.classList.add('is-visible');
+        } else {
+          // Salió de la vista:
+          // Si el elemento quedó por DEBAJO de la pantalla (el usuario hizo scroll hacia arriba),
+          // removemos 'is-visible' para que vuelva a animarse al descender nuevamente
+          if (entry.boundingClientRect.top > 0) {
+            target.classList.remove('is-visible');
+          }
+        }
       });
     }, {
       threshold: 0.12,
@@ -2470,20 +2478,21 @@
     scrollTargets.forEach(el => {
       const rect = el.getBoundingClientRect();
       // Si el elemento ya quedó por encima del viewport (debido a scroll previo o enlace ancla),
-      // marcarlo visible de inmediato para no dejar contenido oculto al scrollear hacia arriba.
+      // marcarlo visible de inmediato pero mantenerlo observado para futuras transiciones
       if (rect.bottom <= 0) {
         el.classList.add('is-visible');
-        return;
       }
       observer.observe(el);
     });
 
-    // Observador opcional para el fondo de cada sección
+    // Observador continuo para secciones
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        sectionObserver.unobserve(entry.target);
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        } else if (entry.boundingClientRect.top > 0) {
+          entry.target.classList.remove('is-visible');
+        }
       });
     }, {
       threshold: 0.05
@@ -2502,6 +2511,19 @@
       
       document.body.dataset.scrollDirection = isDown ? 'down' : 'up';
       document.body.classList.add('is-scrolling');
+      
+      // Cuando el usuario hace scroll hacia arriba, los elementos que quedan abajo se resetean
+      if (!isDown) {
+        const viewportBottom = window.innerHeight;
+        scrollTargets.forEach(el => {
+          if (el.classList.contains('is-visible')) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top >= viewportBottom) {
+              el.classList.remove('is-visible');
+            }
+          }
+        });
+      }
       
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
