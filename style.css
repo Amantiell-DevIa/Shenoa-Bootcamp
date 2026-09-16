@@ -17532,6 +17532,12 @@ html.js .bootcamp-event-page [data-cg-anim].is-visible {
   filter: blur(0);
 }
 
+/* Reseteo ágil sin delay al salir por abajo (scroll hacia arriba) para estar listo para la próxima re-entrada */
+html.js .bootcamp-event-page [data-cg-anim]:not(.is-visible) {
+  transition-delay: 0ms !important;
+  transition-duration: 350ms;
+}
+
 /* Delays escalonados perceptibles */
 html.js .bootcamp-event-page [data-cg-delay="80"]  { transition-delay: 80ms; }
 html.js .bootcamp-event-page [data-cg-delay="100"] { transition-delay: 100ms; }
@@ -17569,6 +17575,12 @@ html.js .bootcamp-event-page .cg-stagger-items.is-visible > * {
   opacity: 1;
   transform: translate3d(0, 0, 0);
   filter: blur(0);
+}
+
+/* Reseteo rápido sin delay al salir */
+html.js .bootcamp-event-page .cg-stagger-items:not(.is-visible) > * {
+  transition-delay: 0ms !important;
+  transition-duration: 300ms;
 }
 
 html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(1) { transition-delay: 80ms; }
