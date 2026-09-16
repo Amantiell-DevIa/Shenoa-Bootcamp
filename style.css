@@ -17363,25 +17363,131 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   pointer-events: none;
 }
 
-
 /* ==========================================================================
-   MOTOR DE ANIMACIÓN Y COREOGRAFÍA DE SCROLL "APPLE STYLE"
-   Dinamismo bilateral, simetría, micro-blur y física inercial (60/120fps)
+   MOTOR DE ANIMACIÓN Y COREOGRAFÍA DE SCROLL "APPLE STYLE" (CALIBRADO)
+   Física inercial fluida (1100ms), micro-blur cinemático y distribución simétrica
    ========================================================================== */
 
 :root {
   --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-apple-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
-  --ease-apple-soft: cubic-bezier(0.25, 1, 0.5, 1);
-  --dur-apple: 780ms;
+  --dur-apple: 1100ms;
 }
 
-/* Prevención de desbordamiento horizontal en animaciones laterales */
+/* Prevención estricta de scroll horizontal */
 html, body, .bootcamp-event-page {
   overflow-x: clip;
 }
 
-/* Estado base de elementos con animación direccional */
+/* ==========================================================================
+   SECCIÓN SEGURIDAD: REDISEÑO SIN ESPACIO VACÍO
+   ========================================================================== */
+
+.bootcamp-event-page.circle-gold-page .cg-v2-security__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 76px);
+  align-items: center;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-v2-security__layout .cg-v2-heading {
+  order: 1 !important;
+  text-align: left;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-v2-security__copy {
+  order: 2 !important;
+  padding: 32px 34px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(217, 181, 74, 0.22) !important;
+  border-right: 1px solid rgba(217, 181, 74, 0.22) !important;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.bootcamp-event-page.circle-gold-page .cg-security-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-security-pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 14px;
+  color: rgba(225, 221, 212, 0.85);
+  line-height: 1.5;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-security-pillar svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--gold);
+}
+
+.bootcamp-event-page.circle-gold-page .cg-security-pillar strong {
+  color: #f7f5ef;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-security-quote {
+  margin-top: 24px;
+  padding: 18px 22px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(217, 181, 74, 0.16), rgba(217, 181, 74, 0.05));
+  border: 1px solid rgba(217, 181, 74, 0.38);
+  box-shadow: 0 8px 24px rgba(217, 181, 74, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-security-quote__icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(217, 181, 74, 0.2);
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-security-quote strong {
+  color: #f7df86;
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 700;
+  margin: 0 !important;
+}
+
+@media (max-width: 960px) {
+  .bootcamp-event-page.circle-gold-page .cg-v2-security__layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 32px;
+  }
+  .bootcamp-event-page.circle-gold-page .cg-v2-security__layout .cg-v2-heading {
+    text-align: center;
+  }
+  .bootcamp-event-page.circle-gold-page .cg-security-pillar {
+    text-align: left;
+  }
+  .bootcamp-event-page.circle-gold-page .cg-v2-security__copy {
+    padding: 24px;
+  }
+}
+
+/* ==========================================================================
+   ANIMACIONES DIRECCIONALES CALIBRADAS (1100ms)
+   ========================================================================== */
+
 html.js .bootcamp-event-page [data-cg-anim] {
   opacity: 0;
   will-change: opacity, transform, filter;
@@ -17391,38 +17497,38 @@ html.js .bootcamp-event-page [data-cg-anim] {
     filter var(--dur-apple) var(--ease-apple);
 }
 
-/* Animación: Entrada desde la IZQUIERDA */
+/* Entrada desde la IZQUIERDA */
 html.js .bootcamp-event-page [data-cg-anim="left"] {
-  transform: translate3d(-46px, 0, 0);
-  filter: blur(5px);
+  transform: translate3d(-38px, 0, 0);
+  filter: blur(6px);
 }
 
-/* Animación: Entrada desde la DERECHA */
+/* Entrada desde la DERECHA */
 html.js .bootcamp-event-page [data-cg-anim="right"] {
-  transform: translate3d(46px, 0, 0);
-  filter: blur(5px);
+  transform: translate3d(38px, 0, 0);
+  filter: blur(6px);
 }
 
-/* Animación: Entrada desde ABAJO (elevación Apple) */
+/* Entrada desde ABAJO (elevación Apple) */
 html.js .bootcamp-event-page [data-cg-anim="up"] {
-  transform: translate3d(0, 38px, 0);
-  filter: blur(4px);
-}
-
-/* Animación: Zoom inercial con escala */
-html.js .bootcamp-event-page [data-cg-anim="scale"] {
-  transform: scale(0.92) translate3d(0, 18px, 0);
-  filter: blur(4px);
-}
-
-/* Animación: Perspectiva 3D lateral (especial para iPhone Mockup) */
-html.js .bootcamp-event-page [data-cg-anim="perspective-left"] {
-  transform: perspective(1200px) rotateY(-8deg) translate3d(-54px, 14px, 0);
+  transform: translate3d(0, 32px, 0);
   filter: blur(5px);
+}
+
+/* Zoom inercial con escala */
+html.js .bootcamp-event-page [data-cg-anim="scale"] {
+  transform: scale(0.93) translate3d(0, 16px, 0);
+  filter: blur(5px);
+}
+
+/* Perspectiva 3D lateral (iPhone Mockup) */
+html.js .bootcamp-event-page [data-cg-anim="perspective-left"] {
+  transform: perspective(1200px) rotateY(-8deg) translate3d(-46px, 14px, 0);
+  filter: blur(6px);
   transform-origin: left center;
 }
 
-/* Activación al hacerse visible (directa o por contenedor) */
+/* Activación al hacerse visible */
 html.js .bootcamp-event-page [data-cg-anim].is-visible,
 html.js .bootcamp-event-page .is-visible [data-cg-anim] {
   opacity: 1;
@@ -17430,8 +17536,7 @@ html.js .bootcamp-event-page .is-visible [data-cg-anim] {
   filter: blur(0);
 }
 
-/* Retardos escalonados declarativos (Delays precisos) */
-html.js .bootcamp-event-page [data-cg-delay="60"]  { transition-delay: 60ms; }
+/* Delays escalonados perceptibles */
 html.js .bootcamp-event-page [data-cg-delay="80"]  { transition-delay: 80ms; }
 html.js .bootcamp-event-page [data-cg-delay="100"] { transition-delay: 100ms; }
 html.js .bootcamp-event-page [data-cg-delay="140"] { transition-delay: 140ms; }
@@ -17439,27 +17544,29 @@ html.js .bootcamp-event-page [data-cg-delay="150"] { transition-delay: 150ms; }
 html.js .bootcamp-event-page [data-cg-delay="180"] { transition-delay: 180ms; }
 html.js .bootcamp-event-page [data-cg-delay="200"] { transition-delay: 200ms; }
 html.js .bootcamp-event-page [data-cg-delay="220"] { transition-delay: 220ms; }
+html.js .bootcamp-event-page [data-cg-delay="240"] { transition-delay: 240ms; }
 html.js .bootcamp-event-page [data-cg-delay="250"] { transition-delay: 250ms; }
 html.js .bootcamp-event-page [data-cg-delay="280"] { transition-delay: 280ms; }
 html.js .bootcamp-event-page [data-cg-delay="300"] { transition-delay: 300ms; }
 html.js .bootcamp-event-page [data-cg-delay="340"] { transition-delay: 340ms; }
 html.js .bootcamp-event-page [data-cg-delay="350"] { transition-delay: 350ms; }
+html.js .bootcamp-event-page [data-cg-delay="360"] { transition-delay: 360ms; }
 html.js .bootcamp-event-page [data-cg-delay="400"] { transition-delay: 400ms; }
 html.js .bootcamp-event-page [data-cg-delay="450"] { transition-delay: 450ms; }
 html.js .bootcamp-event-page [data-cg-delay="500"] { transition-delay: 500ms; }
-html.js .bootcamp-event-page [data-cg-delay="560"] { transition-delay: 560ms; }
+html.js .bootcamp-event-page [data-cg-delay="580"] { transition-delay: 580ms; }
 html.js .bootcamp-event-page [data-cg-delay="640"] { transition-delay: 640ms; }
 
-/* Contenedor con cascada automática para hijos (Stagger) */
+/* Contenedor Stagger con ritmo visible */
 html.js .bootcamp-event-page .cg-stagger-items > * {
   opacity: 0;
-  transform: translate3d(0, 26px, 0);
-  filter: blur(4px);
+  transform: translate3d(0, 24px, 0);
+  filter: blur(5px);
   will-change: opacity, transform, filter;
   transition:
-    opacity 650ms var(--ease-apple),
-    transform 650ms var(--ease-apple),
-    filter 650ms var(--ease-apple);
+    opacity 950ms var(--ease-apple),
+    transform 950ms var(--ease-apple),
+    filter 950ms var(--ease-apple);
 }
 
 html.js .bootcamp-event-page .is-visible .cg-stagger-items > *,
@@ -17469,16 +17576,16 @@ html.js .bootcamp-event-page .cg-stagger-items.is-visible > * {
   filter: blur(0);
 }
 
-html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(1) { transition-delay: 60ms; }
-html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(2) { transition-delay: 130ms; }
-html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(3) { transition-delay: 200ms; }
-html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(4) { transition-delay: 270ms; }
-html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(5) { transition-delay: 340ms; }
-html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(6) { transition-delay: 410ms; }
-html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(7) { transition-delay: 480ms; }
-html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(8) { transition-delay: 550ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(1) { transition-delay: 80ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(2) { transition-delay: 200ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(3) { transition-delay: 320ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(4) { transition-delay: 440ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(5) { transition-delay: 560ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(6) { transition-delay: 680ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(7) { transition-delay: 800ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(8) { transition-delay: 920ms; }
 
-/* Efecto reflectante de barrido dorado (Apple Gold Sheen) */
+/* Barrido dorado reflectante */
 .bootcamp-event-page .cg-gold-sheen {
   position: relative;
   overflow: hidden;
@@ -17491,6 +17598,7 @@ html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(8) { transition-del
   left: 0;
   width: 100%;
   height: 100%;
+  border-radius: inherit;
   background: linear-gradient(
     115deg,
     transparent 15%,
@@ -17506,7 +17614,7 @@ html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(8) { transition-del
 
 .bootcamp-event-page .is-visible .cg-gold-sheen::after,
 .bootcamp-event-page .cg-gold-sheen.is-visible::after {
-  animation: cg-gold-sweep 1.3s 0.25s var(--ease-apple) forwards;
+  animation: cg-gold-sweep 1.5s 0.35s var(--ease-apple) forwards;
 }
 
 @keyframes cg-gold-sweep {
@@ -17515,7 +17623,7 @@ html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(8) { transition-del
   100% { transform: translate3d(120%, 0, 0); opacity: 0; }
 }
 
-/* Pulso de Dopamina / Aurora Glow para Botones CTA Clave */
+/* Pulso de Dopamina / Aurora Glow para Botones CTA */
 .bootcamp-event-page .cg-cta-pulse-glow {
   position: relative;
   z-index: 1;
@@ -17539,7 +17647,7 @@ html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(8) { transition-del
   100% { opacity: 0.75; filter: blur(15px); transform: scale(1.02); }
 }
 
-/* Indicador de Cupos Limitados (Radar Pulse) */
+/* Radar Pulse Cupos Limitados */
 .bootcamp-event-page .cg-fomo-badge__dot {
   position: relative;
 }
@@ -17559,26 +17667,26 @@ html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(8) { transition-del
   75%, 100% { transform: scale(2.6); opacity: 0; }
 }
 
-/* Adaptación para Pantallas Móviles (Garantía sin saltos ni desbordes) */
+/* Adaptación Responsive Móvil */
 @media (max-width: 768px) {
   html.js .bootcamp-event-page [data-cg-anim="left"] {
-    transform: translate3d(-20px, 0, 0);
+    transform: translate3d(-16px, 0, 0);
   }
   html.js .bootcamp-event-page [data-cg-anim="right"] {
-    transform: translate3d(20px, 0, 0);
+    transform: translate3d(16px, 0, 0);
   }
   html.js .bootcamp-event-page [data-cg-anim="perspective-left"] {
-    transform: perspective(600px) rotateY(-4deg) translate3d(-20px, 10px, 0);
+    transform: perspective(600px) rotateY(-4deg) translate3d(-16px, 8px, 0);
   }
   html.js .bootcamp-event-page [data-cg-anim="up"] {
-    transform: translate3d(0, 24px, 0);
+    transform: translate3d(0, 20px, 0);
   }
   html.js .bootcamp-event-page [data-cg-anim="scale"] {
-    transform: scale(0.94) translate3d(0, 12px, 0);
+    transform: scale(0.95) translate3d(0, 10px, 0);
   }
 }
 
-/* Respeto estricto a preferencias de usuario: Accesibilidad */
+/* Accesibilidad */
 @media (prefers-reduced-motion: reduce) {
   html.js .bootcamp-event-page [data-cg-anim],
   html.js .bootcamp-event-page .cg-stagger-items > * {
