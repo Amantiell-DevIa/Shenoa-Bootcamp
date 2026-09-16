@@ -17003,39 +17003,40 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   margin: 0 auto;
 }
 
-/* Resplandor Ambiental de Fondo */
+/* Resplandor Ambiental de Fondo (Cereza Oscuro Pantone 6076) */
 .bootcamp-event-page.circle-gold-page .cg-iphone-glow {
   position: absolute;
   inset: -12px;
-  background: radial-gradient(circle at 50% 50%, rgba(217, 181, 74, 0.22), rgba(255, 255, 255, 0.12), transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(142, 38, 68, 0.38), rgba(65, 23, 38, 0.18), transparent 70%);
   filter: blur(40px);
   border-radius: 60px;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Chasis Exterior (Bisel y Botones Físicos en Titanio Natural / Oscuro Pro) */
+/* Chasis Exterior (Cereza Oscuro Pantone 6076 / Dark Cherry Titanium) */
 .bootcamp-event-page.circle-gold-page .cg-iphone-frame {
   position: relative;
   width: min(100%, 340px);
   height: 680px;
   border-radius: 54px;
   padding: 4px;
-  background: linear-gradient(145deg, #2d313a 0%, #16181e 50%, #282c34 100%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: linear-gradient(145deg, #5a2233 0%, #411925 35%, #2a0f17 70%, #4d1c2b 100%);
+  border: 1px solid rgba(214, 82, 118, 0.45);
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.75),
-    0 25px 50px -10px rgba(0, 0, 0, 0.7),
-    0 0 32px rgba(217, 181, 74, 0.16);
+    0 25px 50px -10px rgba(0, 0, 0, 0.75),
+    0 0 36px rgba(142, 38, 68, 0.35),
+    inset 0 1px 2px rgba(255, 170, 195, 0.35);
   z-index: 10;
 }
 
-/* Botones Físicos en Titanio Pro */
+/* Botones Físicos en Cereza Oscuro Pantone 6076 */
 .bootcamp-event-page.circle-gold-page .cg-iphone-physical-btn {
   position: absolute;
-  background: linear-gradient(180deg, #383e4a 0%, #1c2028 100%);
-  border: 1px solid rgba(0, 0, 0, 0.45);
-  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  background: linear-gradient(180deg, #622537 0%, #30111b 100%);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 180, 200, 0.35);
 }
 
 .bootcamp-event-page.circle-gold-page .cg-iphone-btn--action {
