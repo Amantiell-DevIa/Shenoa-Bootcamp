@@ -14054,16 +14054,11 @@ html.cg-preview-mode .bootcamp-event-page.circle-gold-page [data-cg-pending-copy
   color: #ffb8bd;
 }
 
-/* Aparición única y progresiva. El contenido sigue visible sin JS. */
+/* El contenedor se mantiene estable para que los elementos hijos se animen individualmente */
 html.js .bootcamp-event-page.circle-gold-page .cg-reveal>.bo-container {
-  opacity: 0;
-  transform: translate3d(0, 22px, 0);
-  transition: opacity 680ms ease, transform 680ms cubic-bezier(.22, 1, .36, 1);
-}
-
-html.js .bootcamp-event-page.circle-gold-page .cg-reveal.is-visible>.bo-container {
   opacity: 1;
   transform: none;
+  transition: none;
 }
 
 /* Entrada escalonada exclusiva del Hero. */
@@ -15851,11 +15846,13 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   }
 }
 
-/* --- 7. Reveal Text (fixed — no repeat) --- */
+/* --- 7. Reveal Text (manejado por data-cg-anim individual) --- */
+/*
 .bootcamp-event-page.circle-gold-page .cg-reveal.is-visible h1,
 .bootcamp-event-page.circle-gold-page .cg-reveal.is-visible h2 {
   animation: cg-mask-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
+*/
 
 @keyframes cg-mask-up {
   from {
@@ -17528,9 +17525,8 @@ html.js .bootcamp-event-page [data-cg-anim="perspective-left"] {
   transform-origin: left center;
 }
 
-/* Activación al hacerse visible */
-html.js .bootcamp-event-page [data-cg-anim].is-visible,
-html.js .bootcamp-event-page .is-visible [data-cg-anim] {
+/* Activación INDIVIDUAL: solo cuando el propio elemento entra al campo visual del usuario */
+html.js .bootcamp-event-page [data-cg-anim].is-visible {
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
   filter: blur(0);
@@ -17569,7 +17565,6 @@ html.js .bootcamp-event-page .cg-stagger-items > * {
     filter 950ms var(--ease-apple);
 }
 
-html.js .bootcamp-event-page .is-visible .cg-stagger-items > *,
 html.js .bootcamp-event-page .cg-stagger-items.is-visible > * {
   opacity: 1;
   transform: translate3d(0, 0, 0);
@@ -17612,8 +17607,9 @@ html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(8) { transition-del
   z-index: 6;
 }
 
-.bootcamp-event-page .is-visible .cg-gold-sheen::after,
-.bootcamp-event-page .cg-gold-sheen.is-visible::after {
+.bootcamp-event-page .cg-gold-sheen.is-visible::after,
+html.js .bootcamp-event-page [data-cg-anim].is-visible .cg-gold-sheen::after,
+html.js .bootcamp-event-page .cg-stagger-items.is-visible .cg-gold-sheen::after {
   animation: cg-gold-sweep 1.5s 0.35s var(--ease-apple) forwards;
 }
 
