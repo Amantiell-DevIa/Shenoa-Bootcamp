@@ -2440,6 +2440,7 @@
       return;
     }
 
+    const isMobile = window.innerWidth <= 768;
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -2453,8 +2454,8 @@
         observer.unobserve(target);
       });
     }, {
-      threshold: 0.06,
-      rootMargin: '0px 0px -6% 0px'
+      threshold: 0.1,
+      rootMargin: isMobile ? '0px 0px -4% 0px' : '0px 0px -10% 0px'
     });
 
     targets.forEach(el => observer.observe(el));
