@@ -17003,39 +17003,40 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   margin: 0 auto;
 }
 
-/* Resplandor Ambiental de Fondo */
+/* Resplandor Ambiental de Fondo (Cereza Oscuro Pantone 6076) */
 .bootcamp-event-page.circle-gold-page .cg-iphone-glow {
   position: absolute;
   inset: -12px;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 110, 33, 0.35), rgba(217, 181, 74, 0.15), transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(142, 38, 68, 0.38), rgba(65, 23, 38, 0.18), transparent 70%);
   filter: blur(40px);
   border-radius: 60px;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Chasis Exterior (Bisel y Botones Físicos) */
+/* Chasis Exterior (Cereza Oscuro Pantone 6076 / Dark Cherry Titanium) */
 .bootcamp-event-page.circle-gold-page .cg-iphone-frame {
   position: relative;
   width: min(100%, 340px);
   height: 680px;
   border-radius: 54px;
   padding: 4px;
-  background: #FF6E21;
-  border: 1px solid rgba(255, 110, 33, 0.5);
+  background: linear-gradient(145deg, #5a2233 0%, #411925 35%, #2a0f17 70%, #4d1c2b 100%);
+  border: 1px solid rgba(214, 82, 118, 0.45);
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.6),
-    0 25px 50px -10px rgba(0, 0, 0, 0.65),
-    0 0 35px rgba(255, 110, 33, 0.35);
+    0 0 0 1px rgba(0, 0, 0, 0.75),
+    0 25px 50px -10px rgba(0, 0, 0, 0.75),
+    0 0 36px rgba(142, 38, 68, 0.35),
+    inset 0 1px 2px rgba(255, 170, 195, 0.35);
   z-index: 10;
 }
 
-/* Botones Físicos */
+/* Botones Físicos en Cereza Oscuro Pantone 6076 */
 .bootcamp-event-page.circle-gold-page .cg-iphone-physical-btn {
   position: absolute;
-  background: linear-gradient(180deg, #e55c17 0%, #9e3604 100%);
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  background: linear-gradient(180deg, #622537 0%, #30111b 100%);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 180, 200, 0.35);
 }
 
 .bootcamp-event-page.circle-gold-page .cg-iphone-btn--action {
@@ -17068,7 +17069,7 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   width: 6px;
   height: 82px;
   border-radius: 0 4px 4px 0;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
 }
 
 /* Bisel Negro Interno */
@@ -17082,17 +17083,17 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   overflow: hidden;
 }
 
-/* Pantalla */
+/* Pantalla en MODO CLARO (Light Mode) */
 .bootcamp-event-page.circle-gold-page .cg-iphone-screen {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #0b141a;
+  background: #efeae2;
   border-radius: 42px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 /* Dynamic Island */
@@ -17110,7 +17111,7 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .bootcamp-event-page.circle-gold-page .cg-iphone-camera {
@@ -17137,7 +17138,7 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   background: #0a0a0a;
 }
 
-/* Status Bar Superior */
+/* Status Bar Superior (Modo Claro: Tipografía e Iconos Negros) */
 .bootcamp-event-page.circle-gold-page .cg-iphone-status-bar {
   height: 48px;
   width: 100%;
@@ -17146,13 +17147,14 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   align-items: flex-start;
   padding: 12px 24px 0;
   z-index: 40;
-  color: #ffffff;
+  color: #000000;
 }
 
 .bootcamp-event-page.circle-gold-page .cg-iphone-time {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: #000000;
 }
 
 .bootcamp-event-page.circle-gold-page .cg-iphone-status-icons {
@@ -17160,6 +17162,7 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   align-items: center;
   gap: 5px;
   padding-top: 1px;
+  color: #000000;
 }
 
 .bootcamp-event-page.circle-gold-page .cg-iphone-signal {
@@ -17171,7 +17174,7 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
 
 .bootcamp-event-page.circle-gold-page .cg-iphone-signal-bar {
   width: 2.5px;
-  background: #ffffff;
+  background: #000000;
   border-radius: 1px;
 }
 
@@ -17183,14 +17186,14 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
 .bootcamp-event-page.circle-gold-page .cg-iphone-wifi {
   width: 13px;
   height: 13px;
-  color: #ffffff;
+  color: #000000;
 }
 
 .bootcamp-event-page.circle-gold-page .cg-iphone-battery {
   width: 17px;
   height: 9.5px;
   border-radius: 3px;
-  border: 1px solid #ffffff;
+  border: 1px solid #000000;
   padding: 1px;
   display: flex;
   align-items: center;
@@ -17199,7 +17202,7 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
 .bootcamp-event-page.circle-gold-page .cg-iphone-battery-fill {
   width: 80%;
   height: 100%;
-  background: #ffffff;
+  background: #000000;
   border-radius: 1px;
 }
 
@@ -17213,16 +17216,16 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   overflow: hidden;
 }
 
-/* Header WhatsApp */
+/* Header WhatsApp (Modo Claro) */
 .bootcamp-event-page.circle-gold-page .cg-wa-header {
   padding: 4px 14px 10px;
   display: flex;
   align-items: center;
   gap: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(18, 27, 34, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(246, 246, 246, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 20;
 }
 
@@ -17239,6 +17242,66 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
 .bootcamp-event-page.circle-gold-page .cg-wa-back-btn svg {
   width: 18px;
   height: 18px;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-chat-sim__avatar {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d9b54a 0%, #99772c 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 2px 8px rgba(217, 181, 74, 0.35);
+  flex-shrink: 0;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-chat-sim__online-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background: #25d366;
+  border: 2px solid #f6f6f6;
+  border-radius: 50%;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-chat-sim__meta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-chat-sim__title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-chat-sim__status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  color: #64748b;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-chat-sim__pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #25d366;
+  box-shadow: 0 0 6px #25d366;
+  animation: cg-whatsapp-pulse 2s infinite;
 }
 
 .bootcamp-event-page.circle-gold-page .cg-wa-actions {
@@ -17262,14 +17325,14 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   height: 18px;
 }
 
-/* Área de Chat WhatsApp */
+/* Área de Chat WhatsApp (Modo Claro con Wallpaper Auténtico) */
 .bootcamp-event-page.circle-gold-page .cg-wa-chat-body {
   flex: 1;
-  padding: 12px 12px 64px 12px;
+  padding: 12px 10px 58px 10px;
   overflow-y: auto;
   position: relative;
-  background-color: #0b141a;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-color: #efeae2;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1.2px, transparent 1.2px);
   background-size: 16px 16px;
   display: flex;
   flex-direction: column;
@@ -17278,39 +17341,180 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
 
 .bootcamp-event-page.circle-gold-page .cg-wa-sys-badge {
   align-self: center;
-  margin: 4px 0 10px;
-  background: rgba(18, 27, 34, 0.85);
-  border: 1px solid rgba(217, 181, 74, 0.25);
+  margin: 2px 0 8px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(217, 181, 74, 0.35);
   border-radius: 8px;
   padding: 4px 10px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 .bootcamp-event-page.circle-gold-page .cg-wa-sys-badge svg {
   width: 12px;
   height: 12px;
-  color: #d9b54a;
+  color: #b45309;
   flex-shrink: 0;
 }
 
 .bootcamp-event-page.circle-gold-page .cg-wa-sys-badge span {
   font-size: 9.5px;
-  color: rgba(243, 240, 232, 0.75);
+  color: #4b5563;
   font-weight: 500;
 }
 
-/* Barra Input Inferior */
+/* Burbujas de Mensajes en MODO CLARO */
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__bubble {
+  padding: 9px 12px 16px;
+  border-radius: 14px;
+  max-width: 88%;
+  position: relative;
+  will-change: transform, opacity;
+  animation-duration: 14s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-fill-mode: both;
+}
+
+/* Alumno (Mensaje Entrante Blanco Puro) */
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__bubble--student {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  border-bottom-left-radius: 3px !important;
+  align-self: flex-start;
+  box-shadow: 0 1.5px 3px rgba(0, 0, 0, 0.08), 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+/* Mentor (Mensaje Saliente Oro Claro / Champagne) */
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__bubble--mentor {
+  background: linear-gradient(135deg, #fdf8ec 0%, #faedd0 100%) !important;
+  border: 1px solid rgba(217, 181, 74, 0.45) !important;
+  border-bottom-right-radius: 3px !important;
+  align-self: flex-end;
+  box-shadow: 0 2px 8px rgba(217, 181, 74, 0.16), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__bubble-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__role {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__bubble--student .cg-chat-sim__role {
+  color: #64748b;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__bubble--mentor .cg-chat-sim__role {
+  color: #a16207;
+  text-shadow: none;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__time {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__bubble p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #111827 !important;
+  font-weight: 450;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__bubble--mentor p {
+  color: #1c1917 !important;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__ticks {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__ticks svg path {
+  stroke: #94a3b8 !important;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__ticks--gold svg path {
+  stroke: #b45309 !important;
+}
+
+/* Indicadores de "Escribiendo..." (Typing indicator en Modo Claro) */
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__typing {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 12px;
+  width: fit-content;
+  max-width: 70px;
+  padding: 6px 12px;
+  will-change: transform, opacity, max-height, margin, padding;
+  animation-duration: 14s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-fill-mode: both;
+  overflow: hidden;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__typing--student {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-bottom-left-radius: 3px !important;
+  align-self: flex-start;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__typing--mentor {
+  background: linear-gradient(135deg, #fdf8ec 0%, #faedd0 100%) !important;
+  border: 1px solid rgba(217, 181, 74, 0.4) !important;
+  border-bottom-right-radius: 3px !important;
+  align-self: flex-end;
+  box-shadow: 0 2px 8px rgba(217, 181, 74, 0.14);
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__typing-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: cg-typing-dot-bounce 1.2s infinite ease-in-out;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__typing--student .cg-chat-sim__typing-dot {
+  background: #94a3b8;
+}
+
+.bootcamp-event-page.circle-gold-page .cg-iphone-mockup .cg-chat-sim__typing--mentor .cg-chat-sim__typing-dot {
+  background: #d9b54a;
+}
+
+/* Barra Input Inferior (Modo Claro) */
 .bootcamp-event-page.circle-gold-page .cg-wa-input-bar {
-  height: 52px;
-  background: #121b22;
-  padding: 0 10px 6px;
+  height: 48px;
+  background: #f6f6f6;
+  padding: 0 10px 4px;
   display: flex;
   align-items: center;
   gap: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -17335,27 +17539,28 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
 .bootcamp-event-page.circle-gold-page .cg-wa-input-field {
   flex: 1;
   height: 30px;
-  background: #1f2c34;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   display: flex;
   align-items: center;
   padding: 0 12px;
-  color: #8696a0;
-  font-size: 11.5px;
+  color: #8e8e93;
+  font-size: 12px;
 }
 
-/* Home Indicator Bar iOS */
+/* Home Indicator Bar iOS (Modo Claro: Negro) */
 .bootcamp-event-page.circle-gold-page .cg-iphone-home-indicator {
   position: absolute;
-  bottom: 5px;
+  bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
   width: 105px;
   height: 4px;
-  background: #ffffff;
+  background: #000000;
   border-radius: 999px;
-  opacity: 0.7;
+  opacity: 0.8;
   z-index: 50;
   pointer-events: none;
 }
