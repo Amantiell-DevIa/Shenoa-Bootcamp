@@ -2430,26 +2430,50 @@
   }
 
   function initReveal() {
-    const sections = [...document.querySelectorAll('.cg-reveal')];
-    if (!sections.length) return;
+    const targets = [
+      ...document.querySelectorAll('.cg-reveal, [data-cg-anim], .cg-stagger-items')
+    ];
+    if (!targets.length) return;
 
     if (reducedMotion.matches || !('IntersectionObserver' in window)) {
-      sections.forEach(section => section.classList.add('is-visible'));
+      targets.forEach(el => el.classList.add('is-visible'));
       return;
     }
 
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
+        const target = entry.target;
+        target.classList.add('is-visible');
+        
+        target.querySelectorAll?.('[data-cg-anim]').forEach(child => {
+          child.classList.add('is-visible');
+        });
+
+        observer.unobserve(target);
       });
     }, {
-      threshold: 0.08,
-      rootMargin: '0px 0px -10% 0px'
+      threshold: 0.06,
+      rootMargin: '0px 0px -6% 0px'
     });
 
-    sections.forEach(section => observer.observe(section));
+    targets.forEach(el => observer.observe(el));
+
+    let lastScrollY = window.scrollY;
+    let scrollTimeout = 0;
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      const isDown = currentScrollY > lastScrollY;
+      lastScrollY = currentScrollY;
+      
+      document.body.dataset.scrollDirection = isDown ? 'down' : 'up';
+      document.body.classList.add('is-scrolling');
+      
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        document.body.classList.remove('is-scrolling');
+      }, 150);
+    }, { passive: true });
   }
 
   function initHeroRail() {

@@ -17362,3 +17362,234 @@ html.js .bootcamp-event-page.circle-gold-page .cg-hero.is-visible .cg-microcopy 
   z-index: 50;
   pointer-events: none;
 }
+
+
+/* ==========================================================================
+   MOTOR DE ANIMACIÓN Y COREOGRAFÍA DE SCROLL "APPLE STYLE"
+   Dinamismo bilateral, simetría, micro-blur y física inercial (60/120fps)
+   ========================================================================== */
+
+:root {
+  --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-apple-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-apple-soft: cubic-bezier(0.25, 1, 0.5, 1);
+  --dur-apple: 780ms;
+}
+
+/* Prevención de desbordamiento horizontal en animaciones laterales */
+html, body, .bootcamp-event-page {
+  overflow-x: clip;
+}
+
+/* Estado base de elementos con animación direccional */
+html.js .bootcamp-event-page [data-cg-anim] {
+  opacity: 0;
+  will-change: opacity, transform, filter;
+  transition:
+    opacity var(--dur-apple) var(--ease-apple),
+    transform var(--dur-apple) var(--ease-apple),
+    filter var(--dur-apple) var(--ease-apple);
+}
+
+/* Animación: Entrada desde la IZQUIERDA */
+html.js .bootcamp-event-page [data-cg-anim="left"] {
+  transform: translate3d(-46px, 0, 0);
+  filter: blur(5px);
+}
+
+/* Animación: Entrada desde la DERECHA */
+html.js .bootcamp-event-page [data-cg-anim="right"] {
+  transform: translate3d(46px, 0, 0);
+  filter: blur(5px);
+}
+
+/* Animación: Entrada desde ABAJO (elevación Apple) */
+html.js .bootcamp-event-page [data-cg-anim="up"] {
+  transform: translate3d(0, 38px, 0);
+  filter: blur(4px);
+}
+
+/* Animación: Zoom inercial con escala */
+html.js .bootcamp-event-page [data-cg-anim="scale"] {
+  transform: scale(0.92) translate3d(0, 18px, 0);
+  filter: blur(4px);
+}
+
+/* Animación: Perspectiva 3D lateral (especial para iPhone Mockup) */
+html.js .bootcamp-event-page [data-cg-anim="perspective-left"] {
+  transform: perspective(1200px) rotateY(-8deg) translate3d(-54px, 14px, 0);
+  filter: blur(5px);
+  transform-origin: left center;
+}
+
+/* Activación al hacerse visible (directa o por contenedor) */
+html.js .bootcamp-event-page [data-cg-anim].is-visible,
+html.js .bootcamp-event-page .is-visible [data-cg-anim] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  filter: blur(0);
+}
+
+/* Retardos escalonados declarativos (Delays precisos) */
+html.js .bootcamp-event-page [data-cg-delay="60"]  { transition-delay: 60ms; }
+html.js .bootcamp-event-page [data-cg-delay="80"]  { transition-delay: 80ms; }
+html.js .bootcamp-event-page [data-cg-delay="100"] { transition-delay: 100ms; }
+html.js .bootcamp-event-page [data-cg-delay="140"] { transition-delay: 140ms; }
+html.js .bootcamp-event-page [data-cg-delay="150"] { transition-delay: 150ms; }
+html.js .bootcamp-event-page [data-cg-delay="180"] { transition-delay: 180ms; }
+html.js .bootcamp-event-page [data-cg-delay="200"] { transition-delay: 200ms; }
+html.js .bootcamp-event-page [data-cg-delay="220"] { transition-delay: 220ms; }
+html.js .bootcamp-event-page [data-cg-delay="250"] { transition-delay: 250ms; }
+html.js .bootcamp-event-page [data-cg-delay="280"] { transition-delay: 280ms; }
+html.js .bootcamp-event-page [data-cg-delay="300"] { transition-delay: 300ms; }
+html.js .bootcamp-event-page [data-cg-delay="340"] { transition-delay: 340ms; }
+html.js .bootcamp-event-page [data-cg-delay="350"] { transition-delay: 350ms; }
+html.js .bootcamp-event-page [data-cg-delay="400"] { transition-delay: 400ms; }
+html.js .bootcamp-event-page [data-cg-delay="450"] { transition-delay: 450ms; }
+html.js .bootcamp-event-page [data-cg-delay="500"] { transition-delay: 500ms; }
+html.js .bootcamp-event-page [data-cg-delay="560"] { transition-delay: 560ms; }
+html.js .bootcamp-event-page [data-cg-delay="640"] { transition-delay: 640ms; }
+
+/* Contenedor con cascada automática para hijos (Stagger) */
+html.js .bootcamp-event-page .cg-stagger-items > * {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  filter: blur(4px);
+  will-change: opacity, transform, filter;
+  transition:
+    opacity 650ms var(--ease-apple),
+    transform 650ms var(--ease-apple),
+    filter 650ms var(--ease-apple);
+}
+
+html.js .bootcamp-event-page .is-visible .cg-stagger-items > *,
+html.js .bootcamp-event-page .cg-stagger-items.is-visible > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(1) { transition-delay: 60ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(2) { transition-delay: 130ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(3) { transition-delay: 200ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(4) { transition-delay: 270ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(5) { transition-delay: 340ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(6) { transition-delay: 410ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(7) { transition-delay: 480ms; }
+html.js .bootcamp-event-page .cg-stagger-items > *:nth-child(8) { transition-delay: 550ms; }
+
+/* Efecto reflectante de barrido dorado (Apple Gold Sheen) */
+.bootcamp-event-page .cg-gold-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.bootcamp-event-page .cg-gold-sheen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 15%,
+    rgba(243, 219, 126, 0.08) 38%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(243, 219, 126, 0.08) 62%,
+    transparent 85%
+  );
+  transform: translate3d(-120%, 0, 0);
+  pointer-events: none;
+  z-index: 6;
+}
+
+.bootcamp-event-page .is-visible .cg-gold-sheen::after,
+.bootcamp-event-page .cg-gold-sheen.is-visible::after {
+  animation: cg-gold-sweep 1.3s 0.25s var(--ease-apple) forwards;
+}
+
+@keyframes cg-gold-sweep {
+  0% { transform: translate3d(-120%, 0, 0); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translate3d(120%, 0, 0); opacity: 0; }
+}
+
+/* Pulso de Dopamina / Aurora Glow para Botones CTA Clave */
+.bootcamp-event-page .cg-cta-pulse-glow {
+  position: relative;
+  z-index: 1;
+}
+
+.bootcamp-event-page .cg-cta-pulse-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #d9b54a 0%, #ffe99b 50%, #b88f28 100%);
+  filter: blur(12px);
+  opacity: 0.55;
+  z-index: -1;
+  animation: cg-pulse-aurora 3.2s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes cg-pulse-aurora {
+  0% { opacity: 0.35; filter: blur(8px); transform: scale(0.98); }
+  100% { opacity: 0.75; filter: blur(15px); transform: scale(1.02); }
+}
+
+/* Indicador de Cupos Limitados (Radar Pulse) */
+.bootcamp-event-page .cg-fomo-badge__dot {
+  position: relative;
+}
+
+.bootcamp-event-page .cg-fomo-badge__dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+  animation: cg-radar-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes cg-radar-ping {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  75%, 100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Adaptación para Pantallas Móviles (Garantía sin saltos ni desbordes) */
+@media (max-width: 768px) {
+  html.js .bootcamp-event-page [data-cg-anim="left"] {
+    transform: translate3d(-20px, 0, 0);
+  }
+  html.js .bootcamp-event-page [data-cg-anim="right"] {
+    transform: translate3d(20px, 0, 0);
+  }
+  html.js .bootcamp-event-page [data-cg-anim="perspective-left"] {
+    transform: perspective(600px) rotateY(-4deg) translate3d(-20px, 10px, 0);
+  }
+  html.js .bootcamp-event-page [data-cg-anim="up"] {
+    transform: translate3d(0, 24px, 0);
+  }
+  html.js .bootcamp-event-page [data-cg-anim="scale"] {
+    transform: scale(0.94) translate3d(0, 12px, 0);
+  }
+}
+
+/* Respeto estricto a preferencias de usuario: Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  html.js .bootcamp-event-page [data-cg-anim],
+  html.js .bootcamp-event-page .cg-stagger-items > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+  .bootcamp-event-page .cg-gold-sheen::after,
+  .bootcamp-event-page .cg-cta-pulse-glow::before,
+  .bootcamp-event-page .cg-fomo-badge__dot::after {
+    display: none !important;
+  }
+}
