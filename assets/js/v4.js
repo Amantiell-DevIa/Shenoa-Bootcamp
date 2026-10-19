@@ -6,7 +6,8 @@
      otro botón de compra a la vista (una sola acción en pantalla).
    - Destinos de compra: checkout si existe en curso-config.js;
      si no, lleva a la oferta (#precio-gold). Nunca queda roto.
-   - Escena de #transformacion: cambia de capítulo con el scroll.
+   - Aurora esmeralda: arranca al verse (las cortinas entran desde el lateral)
+     y se pausa cuando su sección no está a la vista.
    ========================================================= */
 (function () {
   'use strict';
@@ -100,62 +101,34 @@
     buyCtas.forEach(cta => buyObserver.observe(cta));
   }
 
-  function initEscena() {
-    const escena = document.querySelector('[data-v4-escena]');
-    const section = escena?.closest('section');
-    if (!escena || !section) return;
-
-    const frames = [...escena.querySelectorAll('[data-v4-frame]')];
-    const dots = [...escena.querySelectorAll('[data-v4-dot]')];
-    const steps = [...section.querySelectorAll('[data-v4-step]')]
-      .map(step => ({ element: step, chapter: Number(step.dataset.v4Step) }))
-      .filter(step => step.chapter > 0);
-    if (!frames.length || !steps.length) return;
-
-    let current = 0;
-    function setChapter(chapter) {
-      if (chapter === current) return;
-      current = chapter;
-      frames.forEach(frame => frame.classList.toggle('is-active', Number(frame.dataset.v4Frame) === chapter));
-      dots.forEach(dot => dot.classList.toggle('is-active', Number(dot.dataset.v4Dot) <= chapter));
-      escena.dataset.chapter = String(chapter);
-    }
-
-    // El capítulo es el del último paso que cruzó el 60 % de la pantalla.
-    let frame = 0;
-    function update() {
-      frame = 0;
-      const line = window.innerHeight * 0.6;
-      let chapter = 1;
-      steps.forEach(step => {
-        if (step.element.getBoundingClientRect().top < line) chapter = Math.max(chapter, step.chapter);
-      });
-      setChapter(chapter);
-    }
-
-    function requestUpdate() {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    }
-
-    setChapter(1);
-
+  // Aurora esmeralda: sus texturas se piden al acercarse (.is-near) y las cortinas
+  // solo ondulan mientras la sección está a la vista (.is-paused fuera de ella)
+  function initAuroras() {
+    const auroras = [...document.querySelectorAll('#page-root .v4-aurora')];
+    if (!auroras.length) return;
     if (!hasIntersectionObserver) {
-      window.addEventListener('scroll', requestUpdate, { passive: true });
-      window.addEventListener('resize', requestUpdate, { passive: true });
+      auroras.forEach(aurora => aurora.classList.add('is-near', 'is-live'));
       return;
     }
-
-    // Solo escucha el scroll mientras la escena está cerca de la vista.
-    new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        window.addEventListener('scroll', requestUpdate, { passive: true });
-        window.addEventListener('resize', requestUpdate, { passive: true });
-        requestUpdate();
-      } else {
-        window.removeEventListener('scroll', requestUpdate);
-        window.removeEventListener('resize', requestUpdate);
-      }
-    }, { rootMargin: '25% 0px' }).observe(section);
+    const near = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-near');
+        near.unobserve(entry.target);
+      });
+    }, { rootMargin: '60% 0px' });
+    // La primera vez que la sección se ve, las cortinas empiezan a entrar desde el lateral
+    // (.is-live); después solo se pausan y se reanudan.
+    const visible = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('is-live');
+        entry.target.classList.toggle('is-paused', !entry.isIntersecting);
+      });
+    }, { rootMargin: '10% 0px' });
+    auroras.forEach(aurora => {
+      near.observe(aurora);
+      visible.observe(aurora);
+    });
   }
 
   // Red de seguridad de las apariciones: al detenerse el scroll, nada que ya
@@ -183,7 +156,7 @@
   function boot() {
     resolvePlanLinks();
     initShell();
-    initEscena();
+    initAuroras();
     initRevealSafetyNet();
   }
 

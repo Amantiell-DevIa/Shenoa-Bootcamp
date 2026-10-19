@@ -1,0 +1,306 @@
+/* =========================================================
+   CÍRCULO GOLD · CAPA FLOW «EL ORO FLUYE» (fase 1, prototipo)
+   Movimiento continuo ligado al scroll sobre la capa V4.
+
+   - Solo actúa con html.flow-on, que pone assets/js/flow.js cuando
+     GSAP carga y el visitante no pide movimiento reducido. Sin JS,
+     sin GSAP o con movimiento reducido la página es la V4 estática.
+   - Quitar class="flow" de <html> desactiva la capa entera.
+   - No cambia el copy ni el orden de las secciones.
+
+   Índice
+   1 · Desplazamiento con inercia
+   2 · Héroe: la escena se abre en profundidad
+   3 · Mercados en horizontal (#posibilidad) y luz de la gema
+   3b · Aurora esmeralda: parallax del cielo (#seguridad, #comunidad, #cierre)
+   4 · El oro se funde (#transformacion)
+   ========================================================= */
+
+
+/* 1 · Desplazamiento con inercia: Lenis lleva el scroll, sin suavizado nativo
+   ========================================================= */
+
+html.flow-smooth {
+  scroll-behavior: auto !important;
+}
+
+
+/* 2 · Héroe: fondo, Shenoa y texto se mueven a distinta velocidad (GSAP)
+   ========================================================= */
+
+.v4.flow-on #page-root #inicio :is(.cg-hero__bg, .cg-hero__protas-box, .cg-hero__live-badge, .cg-hero__center-content) {
+  will-change: transform, opacity;
+}
+
+
+/* 3 · Mercados en horizontal: la sección se fija y los tres mundos pasan de derecha a izquierda
+   ========================================================= */
+
+.v4.flow-on #page-root #posibilidad.flow-gallery {
+  --flow-card-w: min(62vw, 760px);
+  --flow-card-h: min(52vh, 440px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: calc(var(--header-h) + 16px) var(--space-4);
+}
+
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-v2-heading {
+  margin-bottom: var(--space-4);
+}
+
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-v2-market-cards {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: var(--space-3);
+  height: auto;
+  margin: 0;
+  will-change: transform;
+}
+
+/* Todas las tarjetas miden lo mismo: el foco lo da la luz (.is-lit), no el ancho */
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card,
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card:hover,
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card.is-active {
+  flex: 0 0 auto;
+  width: var(--flow-card-w);
+  height: var(--flow-card-h);
+  min-height: 0;
+  padding: var(--space-4);
+  border-color: var(--s-card-line);
+  box-shadow: none;
+  opacity: 1;
+  transform: none;
+  transition: border-color var(--dur-enter) var(--ease-standard), box-shadow var(--dur-enter) var(--ease-standard);
+}
+
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card.is-lit {
+  border-color: rgba(226, 184, 79, .45);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, .45);
+}
+
+/* La foto es más ancha que la tarjeta para poder deslizarse dentro (parallax) */
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card__bg,
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card:hover .cg-market-card__bg,
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card.is-active .cg-market-card__bg {
+  inset: 0 -8%;
+  opacity: .45;
+  transition: opacity var(--dur-enter) var(--ease-standard);
+}
+
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card.is-lit .cg-market-card__bg {
+  opacity: 1;
+}
+
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card__content strong {
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
+}
+
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card__content p,
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card:hover .cg-market-card__content p,
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card.is-active .cg-market-card__content p {
+  max-width: 40ch;
+  max-height: none;
+  margin-top: var(--space-1);
+  color: var(--v4-on-scene-1);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  opacity: 1;
+  transform: none;
+}
+
+/* La gema encendida tiñe la luz de la galería: oro, blanco de brillante, esmeralda */
+@property --flow-gem {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(226, 184, 79, .2);
+}
+
+#posibilidad.flow-gallery {
+  transition: --flow-gem 900ms var(--ease-standard);
+}
+
+#posibilidad.flow-gallery[data-gem="joyas"] {
+  --flow-gem: rgba(236, 228, 214, .14);
+}
+
+#posibilidad.flow-gallery[data-gem="esmeraldas"] {
+  --flow-gem: rgba(31, 157, 107, .42);
+}
+
+.flow-gem-light {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 85% 75% at 50% 55%, var(--flow-gem), transparent 76%);
+}
+
+.v4.flow-on #page-root #posibilidad.flow-gallery>.bo-container {
+  position: relative;
+  z-index: 1;
+}
+
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card:has(.cg-market-card__bg--esmeraldas).is-lit {
+  border-color: rgba(84, 211, 155, .55);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, .45), 0 0 64px rgba(31, 157, 107, .24);
+}
+
+/* Avance de la galería: una línea de luz bajo las tarjetas */
+.flow-gallery__progress {
+  position: relative;
+  height: 2px;
+  margin-top: var(--space-3);
+  overflow: hidden;
+  background: rgba(246, 241, 231, .14);
+}
+
+.flow-gallery__progress>span {
+  position: absolute;
+  inset: 0;
+  background: var(--v4-gold);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: background-color 900ms var(--ease-standard);
+}
+
+#posibilidad.flow-gallery[data-gem="esmeraldas"] .flow-gallery__progress>span {
+  background-color: var(--v4-emerald-bright);
+}
+
+.v4.flow-on #page-root #posibilidad.flow-gallery .cg-v2-possibility__closing {
+  margin-top: var(--space-3);
+}
+
+@media (max-width: 767px) {
+  .v4.flow-on #page-root #posibilidad.flow-gallery {
+    --flow-card-w: 82vw;
+    --flow-card-h: min(50svh, 420px);
+
+    /* Abajo queda sitio para el CTA fijo del móvil */
+    padding-block: var(--space-3) 104px;
+  }
+
+  .v4.flow-on #page-root #posibilidad.flow-gallery .cg-v2-heading {
+    margin-bottom: var(--space-3);
+  }
+
+  .v4.flow-on #page-root #posibilidad.flow-gallery .cg-v2-market-cards {
+    gap: var(--space-2);
+  }
+
+  .v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card,
+  .v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card:hover,
+  .v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card.is-active {
+    padding: var(--space-3);
+  }
+
+  .v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card__content strong {
+    font-size: var(--fs-title);
+    line-height: var(--lh-title);
+  }
+
+  .v4.flow-on #page-root #posibilidad.flow-gallery .cg-market-card__content p {
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+}
+
+
+/* 3b · Aurora esmeralda: las cortinas y su máscara viven en v4.css (ondulan sin JS);
+   aquí la capa solo desplaza su cielo con el scroll (flow.js, initEmeraldAura).
+   ========================================================= */
+
+
+/* 4 · El oro se funde: la sección se fija y el scroll avanza 56 fotogramas sin rótulos
+   ========================================================= */
+
+.v4.flow-on #page-root #transformacion.flow-melt-on {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: calc(var(--header-h) + 24px) var(--space-5);
+  background: var(--v4-scene);
+}
+
+.flow-melt {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.flow-melt__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Velo de lectura: oscuro arriba (titular) y abajo (salida), el oro respira en el centro */
+.flow-melt__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 55%, rgba(12, 11, 9, 0) 35%, rgba(12, 11, 9, .7) 100%),
+    linear-gradient(180deg, rgba(12, 11, 9, .94) 0%, rgba(12, 11, 9, .78) 24%, rgba(12, 11, 9, .3) 50%, rgba(12, 11, 9, .25) 64%, rgba(12, 11, 9, .88) 100%);
+}
+
+/* El contenedor conserva el ancho con márgenes de la V4 (la sección ahora es flex) */
+.v4.flow-on #page-root #transformacion.flow-melt-on .cg-v2-future__layout {
+  position: relative;
+  z-index: 1;
+}
+
+.v4.flow-on #page-root #transformacion.flow-melt-on .cg-v2-heading h2 {
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .55);
+}
+
+/* Las tarjetas son placas sobre el oro; GSAP lleva su opacidad y posición */
+.v4.flow-on #page-root #transformacion.flow-melt-on :is(.cg-v2-heading, .cg-future-card, .cg-future-arrow-wrapper) {
+  transition: none;
+  will-change: transform, opacity;
+}
+
+.v4.flow-on #page-root #transformacion.flow-melt-on .cg-future-card {
+  background: rgba(14, 12, 9, .86);
+}
+
+.v4.flow-on #page-root #transformacion.flow-melt-on .cg-future-card--after {
+  background:
+    linear-gradient(180deg, rgba(226, 184, 79, .12), rgba(226, 184, 79, 0) 60%),
+    rgba(14, 12, 9, .9);
+}
+
+@media (min-width: 768px) {
+  .v4.flow-on #page-root #transformacion.flow-melt-on .cg-future-card {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+}
+
+/* Móvil: «Antes» y «Ahora con Gold» ocupan el mismo sitio; la pieza se transforma en su lugar */
+@media (max-width: 767px) {
+  .v4.flow-on #page-root #transformacion.flow-melt-on {
+    padding-block: var(--space-4) 112px;
+  }
+
+  .v4.flow-on #page-root #transformacion.flow-melt-on .cg-future-cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .v4.flow-on #page-root #transformacion.flow-melt-on .cg-future-card {
+    grid-area: 1 / 1;
+  }
+
+  .v4.flow-on #page-root #transformacion.flow-melt-on .cg-future-arrow-wrapper {
+    display: none;
+  }
+}

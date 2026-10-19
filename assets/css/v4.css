@@ -128,26 +128,32 @@ html.v4 {
   --v4-on-scene-2: #c9c1b1;
   --v4-on-scene-3: #9a9284;
 
-  --v4-paper: #f4efe6;
-  --v4-paper-card: #fcfaf5;
-  --v4-paper-line: rgba(26, 22, 16, .12);
-  --v4-on-paper-1: #1a1610;
-  --v4-on-paper-2: #4a4338;
-  --v4-on-paper-3: #6b6355;
+  /* Terciopelo realzado: la superficie de lectura sigue siendo oscura
+     (la marca del lanzamiento es joyería de noche, sin superficies claras) */
+  --v4-velvet: #12100c;
+  --v4-velvet-card: #1b1813;
+  --v4-velvet-line: rgba(226, 184, 79, .18);
+  --v4-velvet-glow: rgba(226, 184, 79, .08);
 
   --v4-steel-scene: #0d0f12;
   --v4-steel-raised: #151820;
   --v4-steel: #c5ccd6;
 
   --v4-gold: #e2b84f;
-  --v4-gold-ink: #7d5b0f;
+
+  /* Esmeralda: la gema engastada en el oro. El oro es el producto y el valor;
+     la esmeralda, la confianza, el crecimiento y la comunidad viva. */
+  --v4-emerald-deep: #07140f;
+  --v4-emerald-card: #0d1f18;
+  --v4-emerald-line: rgba(84, 211, 155, .18);
+  --v4-emerald: #1f9d6b;
+  --v4-emerald-bright: #54d39b;
+  --v4-emerald-glow: rgba(31, 157, 107, .24);
 
   --v4-action: #fbf7ee;
   --v4-action-ink: #14110b;
-  --v4-action-paper: #17140f;
 
   --v4-focus: #e2b84f;
-  --v4-focus-paper: #a26f08;
 
   /* Forma: control, tarjeta y acción */
   --r-control: 8px;
@@ -241,7 +247,7 @@ html.v4 body {
   clip-path: none;
 }
 
-/* Foco: anillo visible sobre escena y sobre papel (un solo estilo en toda la página) */
+/* Foco: anillo visible sobre la escena y el terciopelo realzado (un solo estilo en toda la página) */
 .v4 :focus-visible,
 .v4 #page-root :is(a, button, input, textarea, select, [tabindex]):focus-visible {
   outline: 2px solid var(--s-focus, var(--v4-focus));
@@ -280,19 +286,274 @@ html.v4 body {
   color: var(--s-text-2);
 }
 
-/* Superficie de lectura: papel de tasación (leer, comparar, decidir) */
-.v4 #page-root :is(#dudas, #seguridad, #incluye-gold, #preguntas-frecuentes) {
-  --s-bg: var(--v4-paper);
-  --s-text-1: var(--v4-on-paper-1);
-  --s-text-2: var(--v4-on-paper-2);
-  --s-text-3: var(--v4-on-paper-3);
-  --s-line: var(--v4-paper-line);
-  --s-card: var(--v4-paper-card);
-  --s-card-line: var(--v4-paper-line);
-  --s-accent: var(--v4-gold-ink);
-  --s-action-bg: var(--v4-action-paper);
-  --s-action-fg: var(--v4-action);
-  --s-focus: var(--v4-focus-paper);
+/* Superficie de lectura: terciopelo realzado bajo la luz del joyero (leer, comparar, decidir).
+   El cambio de ritmo lo marcan el tono, un foco cálido sobre el contenido (se apaga antes
+   de los bordes: sin costuras entre secciones) y el filo dorado de las tarjetas. */
+.v4 #page-root :is(#dudas, #incluye-gold, #preguntas-frecuentes) {
+  --s-bg: var(--v4-velvet);
+  --s-card: var(--v4-velvet-card);
+  --s-card-line: var(--v4-velvet-line);
+
+  background:
+    radial-gradient(ellipse 75% 60% at 50% 42%, var(--v4-velvet-glow), transparent 80%),
+    var(--s-bg);
+}
+
+/* Superficie viva: terciopelo esmeralda para la confianza (#seguridad) y la comunidad
+   (#comunidad). Da respiro entre los negros y los oros; el oro sigue siendo el acento,
+   como la esmeralda engastada en oro. La sección entra y sale fundiéndose con sus
+   vecinas (sin cortes de color) y la gema (--s-gem) marca lo verificado y lo vivo. */
+.v4 #page-root :is(#seguridad, #comunidad) {
+  --s-bg: var(--v4-emerald-deep);
+  --s-card: var(--v4-emerald-card);
+  --s-card-line: var(--v4-emerald-line);
+  --s-line: rgba(84, 211, 155, .14);
+  --s-gem: var(--v4-emerald-bright);
+  --s-fade-top: var(--v4-scene);
+  --s-fade-bottom: var(--v4-scene);
+
+  background:
+    linear-gradient(180deg, var(--s-fade-top) 0, rgba(7, 20, 15, 0) 160px, rgba(7, 20, 15, 0) calc(100% - 160px), var(--s-fade-bottom) 100%),
+    radial-gradient(ellipse 70% 60% at 24% 45%, var(--v4-emerald-glow), transparent 72%),
+    radial-gradient(ellipse 45% 40% at 84% 70%, rgba(226, 184, 79, .07), transparent 72%),
+    var(--s-bg);
+}
+
+/* Vecinos: #seguridad viene del terciopelo de #dudas; #comunidad va hacia el de #incluye-gold */
+.v4 #page-root #seguridad {
+  --s-fade-top: var(--v4-velvet);
+}
+
+.v4 #page-root #comunidad {
+  --s-fade-bottom: var(--v4-velvet);
+}
+
+/* Aurora esmeralda: da vida a las secciones de la gema (#seguridad, #comunidad, #cierre).
+   Tres cortinas de luz (texturas generadas: borde inferior ondulado y rayos que suben,
+   en esmeralda, turquesa y esmeralda con oro) aparecen desde el lateral, cruzan la
+   sección encendiéndose y apagándose, y ondulan despacio a ritmos distintos.
+   Solo se anima transform y opacity (lo mueve la GPU, sin repintar). Se funde en los
+   bordes como su sección; las texturas se piden al acercarse y la animación se pausa
+   fuera de la vista (v4.js). Con movimiento reducido se queda quieta. En móvil, dos cortinas. */
+.v4-aurora {
+  display: none;
+}
+
+.v4 #page-root :is(#seguridad, #comunidad, #cierre)>.v4-aurora {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 160px, #000 calc(100% - 160px), transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 160px, #000 calc(100% - 160px), transparent 100%);
+}
+
+.v4 #page-root :is(#seguridad, #comunidad, #cierre)>.bo-container {
+  position: relative;
+  z-index: 1;
+}
+
+.v4 #page-root .v4-aurora__sky {
+  position: absolute;
+  inset: 0;
+}
+
+/* Velo de lectura: oscurece detrás del texto y deja la aurora viva en los bordes.
+   Medido contra los píxeles reales de la aurora en movimiento (AA en todo el texto). */
+.v4 #page-root .v4-aurora::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 62% 70% at 50% 46%, rgba(7, 20, 15, .86), rgba(7, 20, 15, .62) 55%, rgba(7, 20, 15, 0) 92%);
+}
+
+/* El cierre lleva el contenido centrado: el velo es una columna alta y la aurora brilla a los lados */
+.v4 #page-root #cierre>.v4-aurora::after {
+  background: radial-gradient(ellipse 46% 74% at 50% 56%, rgba(7, 20, 15, .92), rgba(7, 20, 15, .82) 58%, rgba(7, 20, 15, 0) 100%);
+}
+
+/* En comunidad el texto vive a la derecha (el teléfono, a la izquierda) */
+@media (min-width: 961px) {
+  .v4 #page-root #comunidad>.v4-aurora::after {
+    background: radial-gradient(ellipse 42% 62% at 72% 50%, rgba(7, 20, 15, .85), rgba(7, 20, 15, .55) 55%, rgba(7, 20, 15, 0) 95%);
+  }
+}
+
+/* Halo: el texto que va directamente sobre la aurora se separa de la luz */
+.v4 #page-root :is(#seguridad, #comunidad, #cierre) :is(h2, .cg-v2-eyebrow, .cg-security-pillar, .cg-v2-community__info p, .cg-closing__words li, .cg-closing__copy p, .cg-closing__alternative p) {
+  text-shadow: 0 0 22px rgba(7, 20, 15, .9), 0 1px 2px rgba(0, 0, 0, .5);
+}
+
+.v4 #page-root .v4-aurora__sky>span {
+  position: absolute;
+  left: -25%;
+  width: 150%;
+  height: 60%;
+  background: none 50% 100% / 100% 100% no-repeat;
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+/* Las texturas (cortinas con rayos, borde inferior ondulado) se piden al acercarse (v4.js: .is-near) */
+.v4 #page-root .v4-aurora.is-near .v4-aurora__sky>span:nth-child(1) {
+  background-image: url("../img/aurora/aurora-a-1600.webp");
+}
+
+.v4 #page-root .v4-aurora.is-near .v4-aurora__sky>span:nth-child(2) {
+  background-image: url("../img/aurora/aurora-b-1600.webp");
+}
+
+.v4 #page-root .v4-aurora.is-near .v4-aurora__sky>span:nth-child(3) {
+  background-image: url("../img/aurora/aurora-c-1600.webp");
+}
+
+/* Cortina alta: la esmeralda viva */
+.v4 #page-root .v4-aurora__sky>span:nth-child(1) {
+  top: -8%;
+  transform: rotate(-4deg) skewX(-4deg);
+}
+
+/* Cortina media: un matiz turquesa que da profundidad */
+.v4 #page-root .v4-aurora__sky>span:nth-child(2) {
+  top: 18%;
+  transform: rotate(3deg) skewX(5deg) scaleX(-1);
+}
+
+/* Cortina baja: la esmeralda con un susurro de oro, la marca */
+.v4 #page-root .v4-aurora__sky>span:nth-child(3) {
+  top: 44%;
+  transform: rotate(-2deg) skewX(3deg);
+}
+
+/* Móvil: dos cortinas más estrechas y altas (texturas de 800 px) */
+@media (max-width: 767px) {
+  .v4 #page-root .v4-aurora__sky>span {
+    left: -80%;
+    width: 260%;
+    height: 34%;
+  }
+
+  .v4 #page-root .v4-aurora__sky>span:nth-child(2) {
+    top: 40%;
+  }
+
+  .v4 #page-root .v4-aurora__sky>span:nth-child(3) {
+    display: none;
+  }
+
+  .v4 #page-root .v4-aurora.is-near .v4-aurora__sky>span:nth-child(1) {
+    background-image: url("../img/aurora/aurora-a-800.webp");
+  }
+
+  .v4 #page-root .v4-aurora.is-near .v4-aurora__sky>span:nth-child(2) {
+    background-image: url("../img/aurora/aurora-b-800.webp");
+  }
+}
+
+/* Sin JavaScript o con movimiento reducido: cortinas quietas y visibles */
+.v4 #page-root .v4-aurora__sky>span {
+  opacity: .85;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Cada cortina espera transparente en el lateral izquierdo hasta que la sección se ve (.is-live) */
+  html.js.v4 #page-root .v4-aurora__sky>span {
+    opacity: 0;
+    translate: -55% 0;
+  }
+
+  /* Dos movimientos a la vez: el balanceo (transform) y el cruce de lado a lado con
+     transparencia (translate + opacity). Entran escalonadas: 0 s, 4 s y 9 s. */
+  .v4 #page-root .v4-aurora.is-live .v4-aurora__sky>span:nth-child(1) {
+    animation: v4-aurora-1 22s ease-in-out infinite alternate, v4-aurora-cruce 30s linear infinite backwards;
+  }
+
+  .v4 #page-root .v4-aurora.is-live .v4-aurora__sky>span:nth-child(2) {
+    animation: v4-aurora-2 30s ease-in-out infinite alternate, v4-aurora-cruce 36s linear 4s infinite backwards;
+  }
+
+  .v4 #page-root .v4-aurora.is-live .v4-aurora__sky>span:nth-child(3) {
+    animation: v4-aurora-3 38s ease-in-out infinite alternate, v4-aurora-cruce 42s linear 9s infinite backwards;
+  }
+
+  .v4 #page-root .v4-aurora.is-paused .v4-aurora__sky>span {
+    animation-play-state: paused;
+  }
+}
+
+/* Cruce: aparece desde el lateral, se enciende, respira mientras avanza y se apaga al salir */
+@keyframes v4-aurora-cruce {
+  0% {
+    opacity: 0;
+    translate: -55% 0;
+  }
+
+  10% {
+    opacity: .85;
+  }
+
+  30% {
+    opacity: .55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: .6;
+  }
+
+  88% {
+    opacity: .8;
+  }
+
+  100% {
+    opacity: 0;
+    translate: 55% 0;
+  }
+}
+
+/* Balanceo: la forma de la cortina ondula (la transparencia la lleva el cruce) */
+@keyframes v4-aurora-1 {
+  0% {
+    transform: translate3d(-6%, 3%, 0) rotate(-5deg) skewX(-8deg) scaleY(.86);
+  }
+
+  50% {
+    transform: translate3d(2%, -4%, 0) rotate(-2deg) skewX(4deg) scaleY(1.12);
+  }
+
+  100% {
+    transform: translate3d(8%, 1%, 0) rotate(-4deg) skewX(-3deg) scaleY(.96);
+  }
+}
+
+@keyframes v4-aurora-2 {
+  0% {
+    transform: translate3d(6%, 0, 0) rotate(4deg) skewX(7deg) scaleX(-1) scaleY(1);
+  }
+
+  50% {
+    transform: translate3d(-3%, 5%, 0) rotate(1deg) skewX(-5deg) scaleX(-1) scaleY(1.18);
+  }
+
+  100% {
+    transform: translate3d(-8%, -2%, 0) rotate(4deg) skewX(3deg) scaleX(-1) scaleY(.9);
+  }
+}
+
+@keyframes v4-aurora-3 {
+  0% {
+    transform: translate3d(-4%, 3%, 0) rotate(-2deg) skewX(6deg) scaleY(.9);
+  }
+
+  100% {
+    transform: translate3d(7%, -3%, 0) rotate(-4deg) skewX(-6deg) scaleY(1.1);
+  }
 }
 
 /* Círculo Acero: escena fría con luz acero */
@@ -772,9 +1033,12 @@ html.v4 body {
   filter: saturate(.55) brightness(.62) contrast(1.04);
 }
 
+/* La página empieza con oro y esmeralda: el oro ilumina a Shenoa desde arriba y una luz
+   esmeralda baja sostiene la acción; se apaga antes del borde para no marcar costura. */
 .v4 #page-root .cg-hero--summit .cg-hero__bg-gradient {
   background:
     radial-gradient(ellipse 44% 40% at 50% 30%, rgba(226, 184, 79, .16), transparent 70%),
+    radial-gradient(ellipse 62% 24% at 50% 77%, rgba(31, 157, 107, .28), transparent 70%),
     linear-gradient(180deg, rgba(12, 11, 9, 0) 0%, rgba(12, 11, 9, .3) 34%, rgba(12, 11, 9, .86) 62%, var(--v4-scene) 100%);
 }
 
@@ -816,7 +1080,7 @@ html.v4 body {
   }
 }
 
-/* Etiqueta del evento: 8 px, sin verde ni pulso */
+/* Etiqueta del evento: 8 px, sin pulso; el punto «en vivo» es la gema (comunidad viva) */
 .v4 #page-root .cg-hero--summit .cg-hero__live-badge {
   gap: 8px;
   margin-top: -18px;
@@ -832,8 +1096,8 @@ html.v4 body {
 .v4 #page-root .cg-hero--summit .cg-hero__live-dot {
   width: 6px;
   height: 6px;
-  background: var(--v4-gold);
-  box-shadow: none;
+  background: var(--v4-emerald-bright);
+  box-shadow: 0 0 8px rgba(84, 211, 155, .55);
   animation: none;
 }
 
@@ -987,7 +1251,7 @@ html.v4 body {
 }
 
 
-/* --- 02 · Dudas (papel): una conversación honesta a la luz del día --- */
+/* --- 02 · Dudas (terciopelo): una conversación honesta bajo la luz del joyero --- */
 
 .v4 #page-root #dudas .cg-objections__heading h2 {
   font-size: var(--fs-h2);
@@ -997,14 +1261,14 @@ html.v4 body {
   border: 1px solid var(--s-card-line);
   border-radius: var(--r-card);
   background: var(--s-card);
-  box-shadow: 0 1px 2px rgba(26, 22, 16, .05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
 
 .v4 #page-root #dudas .cg-objection-item.is-active {
-  border-color: color-mix(in srgb, var(--v4-gold-ink) 45%, transparent);
-  box-shadow: 0 12px 32px rgba(26, 22, 16, .08);
+  border-color: color-mix(in srgb, var(--s-accent) 45%, transparent);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .45);
 }
 
 .v4 #page-root #dudas .cg-objection-item::before,
@@ -1049,7 +1313,7 @@ html.v4 body {
 }
 
 .v4 #page-root #dudas .cg-objection-item__progress {
-  background: rgba(26, 22, 16, .08);
+  background: var(--s-line);
 }
 
 .v4 #page-root #dudas .cg-objection-item__progress>span {
@@ -1068,7 +1332,7 @@ html.v4 body {
 }
 
 
-/* --- 03 · Seguridad (papel): el método como certificado --- */
+/* --- 03 · Seguridad (terciopelo esmeralda): el método como certificado --- */
 
 .v4 #page-root #seguridad .cg-security-pillars {
   gap: 0;
@@ -1087,9 +1351,10 @@ html.v4 body {
   line-height: var(--lh-body);
 }
 
+/* Lo verificado lleva la gema */
 .v4 #page-root #seguridad .cg-security-pillar svg {
   margin-top: 4px;
-  stroke: var(--s-accent);
+  stroke: var(--s-gem, var(--s-accent));
 }
 
 .v4 #page-root #seguridad .cg-security-pillar strong {
@@ -1101,7 +1366,7 @@ html.v4 body {
   border: 1px solid var(--s-card-line) !important;
   border-radius: var(--r-card);
   background: var(--s-card);
-  box-shadow: 0 12px 32px rgba(26, 22, 16, .07);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .4);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
@@ -1123,9 +1388,9 @@ html.v4 body {
 .v4 #page-root #seguridad .cg-security-quote {
   margin-top: var(--space-3);
   padding: var(--space-2);
-  border: 1px solid color-mix(in srgb, var(--v4-gold-ink) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--s-accent) 30%, transparent);
   border-radius: var(--r-control);
-  background: color-mix(in srgb, var(--v4-gold-ink) 6%, transparent);
+  background: color-mix(in srgb, var(--s-accent) 6%, transparent);
   box-shadow: none;
 }
 
@@ -1134,7 +1399,7 @@ html.v4 body {
 }
 
 .v4 #page-root #seguridad .cg-security-quote__icon {
-  background: color-mix(in srgb, var(--v4-gold-ink) 12%, transparent);
+  background: color-mix(in srgb, var(--s-accent) 12%, transparent);
   color: var(--s-accent);
 }
 
@@ -1163,6 +1428,15 @@ html.v4 body {
 .v4 #page-root #posibilidad .cg-market-card:hover {
   border-color: rgba(226, 184, 79, .45);
   background: var(--s-card);
+}
+
+/* Cada mercado brilla con el color de su gema: las esmeraldas, en verde */
+.v4 #page-root #posibilidad .cg-market-card:has(.cg-market-card__bg--esmeraldas):is(.is-active, :hover) {
+  border-color: rgba(84, 211, 155, .5);
+}
+
+.v4 #page-root #posibilidad .cg-market-card:has(.cg-market-card__bg--esmeraldas) .cg-market-card__content>span {
+  color: var(--v4-emerald-bright);
 }
 
 .v4 #page-root #posibilidad .cg-market-card::after {
@@ -1258,6 +1532,117 @@ html.v4 body {
 }
 
 
+/* --- Aro de marca: el «Círculo» de oro gira alrededor del nombre del producto ---
+   En la presentación (#circulo-gold) y en la oferta (#precio-gold): todo en la página
+   lleva a Círculo Gold. El nombre vive centrado dentro de un medallón cuadrado de
+   5,8 em del titular (escala con él) que el aro llena: queda aire alrededor de
+   «CÍRCULO» y nada sobresale. El rótulo va encima, centrado. Sin V4 no se muestra. */
+
+.cg-ring {
+  display: none;
+}
+
+/* Rótulo + medallón forman una pieza: se ajusta a su ancho y se centra por dentro */
+.v4 #page-root #circulo-gold .cg-v2-gold__heading,
+.v4 #page-root #precio-gold .cg-v2-offer__card header {
+  width: fit-content;
+  text-align: center;
+}
+
+.v4 #page-root #circulo-gold .cg-v2-gold__heading #cg-gold-system-title,
+.v4 #page-root #precio-gold .cg-v2-offer__card #cg-gold-offer-title {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  width: 5.8em;
+  height: 5.8em;
+  margin: 0 auto;
+  /* Las mayúsculas quedan 0,1 em por encima del centro de su caja: se compensa */
+  padding-top: .2em;
+  text-align: center;
+}
+
+/* Apilado y centrado (hasta 960 px): la pieza se centra en su columna */
+@media (max-width: 960px) {
+  .v4 #page-root #circulo-gold .cg-v2-gold__heading,
+  .v4 #page-root #precio-gold .cg-v2-offer__card header {
+    margin-inline: auto;
+  }
+}
+
+.v4 #page-root :is(#cg-gold-system-title, #cg-gold-offer-title)>.cg-ring {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  background: none;
+  pointer-events: none;
+}
+
+.v4 #page-root .cg-ring svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.v4 #page-root .cg-ring__glow {
+  opacity: .55;
+}
+
+/* El bisel interior lleva esmeraldas engastadas: la joya completa es oro + esmeralda */
+.v4 #page-root .cg-ring__marks {
+  opacity: .75;
+}
+
+.v4 #page-root .cg-ring__marks circle {
+  stroke: var(--v4-emerald-bright);
+  stroke-width: 1.1;
+}
+
+.v4 #page-root .cg-ring__line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+}
+
+/* Entrada: el aro se dibuja cuando aparece el titular y el destello llega al final */
+html.js.v4 #page-root [data-cg-anim]:not(.is-visible) .cg-ring__line {
+  stroke-dashoffset: 100;
+}
+
+html.js.v4 #page-root [data-cg-anim]:not(.is-visible) :is(.cg-ring__glow, .cg-ring__glint, .cg-ring__marks) {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .v4 #page-root .cg-ring__line {
+    transition: stroke-dashoffset 1.6s var(--ease-reveal) .2s;
+  }
+
+  .v4 #page-root :is(.cg-ring__glow, .cg-ring__glint, .cg-ring__marks) {
+    transition: opacity var(--dur-enter) var(--ease-standard) 1.2s;
+  }
+
+  /* Giro lento y continuo: la luz recorre el oro; las marcas giran al revés */
+  .v4 #page-root .cg-ring__band {
+    animation: cg-ring-giro 18s linear infinite;
+  }
+
+  .v4 #page-root .cg-ring__marks {
+    animation: cg-ring-giro 32s linear infinite reverse;
+  }
+}
+
+@keyframes cg-ring-giro {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 /* --- 05 · Círculo Gold (escena): el nombre aparece bajo la luz --- */
 
 .v4 #page-root #circulo-gold {
@@ -1322,7 +1707,7 @@ html.v4 body {
 }
 
 
-/* --- 06 · Comunidad (escena) --- */
+/* --- 06 · Comunidad (terciopelo esmeralda): el círculo está vivo --- */
 
 .v4 #page-root #comunidad .cg-v2-community__info h2 {
   font-size: var(--fs-h2);
@@ -1349,7 +1734,7 @@ html.v4 body {
 }
 
 
-/* --- 07 · Todo lo que incluye (papel): el certificado de lo que compras --- */
+/* --- 07 · Todo lo que incluye (terciopelo): el certificado de lo que compras --- */
 
 .v4 #page-root #incluye-gold .cg-apple-header h2 {
   font-size: var(--fs-h2);
@@ -1472,7 +1857,7 @@ html.v4 body {
   flex: 0 0 auto;
   padding: 2px 8px;
   border-radius: var(--r-control);
-  background: color-mix(in srgb, var(--v4-gold-ink) 12%, transparent);
+  background: color-mix(in srgb, var(--s-accent) 12%, transparent);
   color: var(--s-accent);
   font-size: var(--fs-caption);
   font-weight: 650;
@@ -1561,96 +1946,25 @@ html.v4 body {
 }
 
 
-/* --- 09 · Transformación: la escena avanza con el scroll --- */
+/* --- 09 · Transformación (escena): antes y ahora, frente a frente bajo la luz ---
+   Sin fotografías de fondo (traían los rótulos incrustados en la imagen):
+   un foco cálido de mesa de joyero sobre las dos tarjetas, que la de Gold recoge. */
 
 .v4 #page-root #transformacion {
-  padding-block: 0;
-  background: var(--v4-scene);
-}
-
-.v4 #page-root .v4-escena {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.v4 #page-root .v4-escena__stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
-}
-
-/* En escritorio el escenario empieza bajo la cabecera para no tapar el capítulo */
-@media (min-width: 768px) {
-  .v4 #page-root .v4-escena__stage {
-    top: var(--header-h);
-    height: calc(100vh - var(--header-h));
-    height: calc(100svh - var(--header-h));
-  }
-}
-
-.v4 #page-root .v4-escena__frame {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: 0% 0%;
-  opacity: 0;
-}
-
-.v4 #page-root .v4-escena__frame.is-active {
-  opacity: 1;
-}
-
-/* Velo de lectura: la escena queda a la izquierda, el texto a la derecha */
-.v4 #page-root .v4-escena__veil {
-  position: absolute;
-  inset: 0;
   background:
-    linear-gradient(90deg, rgba(12, 11, 9, 0) 30%, rgba(12, 11, 9, .55) 60%, rgba(12, 11, 9, .82) 100%),
-    linear-gradient(180deg, var(--v4-scene) 0%, rgba(12, 11, 9, 0) 14%, rgba(12, 11, 9, 0) 86%, var(--v4-scene) 100%);
-}
-
-/* Progreso en barras: dónde está la historia */
-.v4 #page-root .v4-escena__progress {
-  position: absolute;
-  right: var(--gutter);
-  bottom: clamp(24px, 5svh, 48px);
-  left: var(--gutter);
-  display: flex;
-  gap: 6px;
-  max-width: 240px;
-  margin-inline: auto;
-}
-
-.v4 #page-root .v4-escena__progress span {
-  flex: 1;
-  height: 2px;
-  background: rgba(246, 241, 231, .22);
-}
-
-.v4 #page-root .v4-escena__progress span.is-active {
-  background: var(--v4-gold);
+    radial-gradient(ellipse 65% 55% at 50% 60%, rgba(226, 184, 79, .09), transparent 80%),
+    var(--v4-scene);
 }
 
 .v4 #page-root #transformacion .cg-v2-future__layout {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding-block: 42svh 46svh;
+  max-width: 1040px;
+  margin-inline: auto;
 }
 
 .v4 #page-root #transformacion .cg-v2-heading {
-  width: min(100%, 420px);
-  margin: 0;
-  text-align: left;
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .v4 #page-root #transformacion .cg-v2-heading h2 {
@@ -1660,29 +1974,29 @@ html.v4 body {
 }
 
 .v4 #page-root #transformacion .cg-future-cards {
-  display: flex;
-  flex-direction: column;
+  gap: var(--space-3);
   align-items: stretch;
-  gap: 0;
-  width: min(100%, 420px);
-  margin: 0;
+  margin-top: var(--space-5);
 }
 
 .v4 #page-root #transformacion .cg-future-card {
-  margin-top: 46svh;
   min-height: 0 !important;
-  padding: var(--space-3) !important;
-  border: 1px solid rgba(246, 241, 231, .14);
+  padding: var(--space-4) !important;
+  border: 1px solid rgba(246, 241, 231, .12);
   border-radius: var(--r-card) !important;
-  background: rgba(12, 11, 9, .62);
+  background: var(--v4-scene-raised);
   box-shadow: 0 24px 48px rgba(0, 0, 0, .35);
-  -webkit-backdrop-filter: saturate(1.3) blur(20px);
-  backdrop-filter: saturate(1.3) blur(20px);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   text-align: left !important;
 }
 
 .v4 #page-root #transformacion .cg-future-card--after {
   border-color: rgba(226, 184, 79, .42);
+  background:
+    linear-gradient(180deg, rgba(226, 184, 79, .1), rgba(226, 184, 79, 0) 60%),
+    var(--v4-scene-raised);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, .4), 0 0 48px rgba(226, 184, 79, .08);
 }
 
 .v4 #page-root #transformacion .cg-future-card::before,
@@ -1720,61 +2034,27 @@ html.v4 body {
   line-height: var(--lh-body);
 }
 
+/* La flecha une las dos tarjetas: a la derecha en escritorio, hacia abajo al apilarse */
 .v4 #page-root #transformacion .cg-future-arrow-wrapper {
   align-self: center;
-  margin-top: 30svh;
 }
 
 .v4 #page-root #transformacion .cg-future-arrow {
   border: 1px solid rgba(226, 184, 79, .4);
-  background: rgba(12, 11, 9, .62);
+  background: var(--v4-scene);
   box-shadow: none;
   color: var(--v4-gold);
-  transform: rotate(90deg);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
   animation: none;
 }
 
-/* Pantallas verticales: el encuadre sigue a la pieza, no al rótulo de la imagen */
-@media (max-width: 767px), (max-aspect-ratio: 1/1) {
-  .v4 #page-root .v4-escena__frame[data-v4-frame="1"] {
-    object-position: 64% 50%;
-  }
-
-  .v4 #page-root .v4-escena__frame[data-v4-frame="2"] {
-    object-position: 60% 50%;
-  }
-
-  .v4 #page-root .v4-escena__frame[data-v4-frame="3"] {
-    object-position: 50% 50%;
-  }
-
-  .v4 #page-root .v4-escena__frame[data-v4-frame="4"] {
-    object-position: 52% 50%;
-  }
-}
-
 @media (max-width: 767px) {
-  .v4 #page-root .v4-escena__veil {
-    background: linear-gradient(180deg, var(--v4-scene) 0%, rgba(12, 11, 9, .1) 18%, rgba(12, 11, 9, .2) 46%, rgba(12, 11, 9, .86) 78%, var(--v4-scene) 100%);
-  }
-
-  .v4 #page-root #transformacion .cg-v2-future__layout {
-    align-items: stretch;
-    padding-block: 52svh 40svh;
-  }
-
-  .v4 #page-root #transformacion :is(.cg-v2-heading, .cg-future-cards) {
-    width: 100%;
+  .v4 #page-root #transformacion .cg-future-cards {
+    gap: var(--space-2);
+    margin-top: var(--space-4);
   }
 
   .v4 #page-root #transformacion .cg-future-card {
-    margin-top: 42svh;
-  }
-
-  .v4 #page-root #transformacion .cg-future-arrow-wrapper {
-    margin-top: 26svh;
+    padding: var(--space-3) !important;
   }
 }
 
@@ -1956,7 +2236,7 @@ html.v4 body {
 }
 
 
-/* --- 13 · Preguntas frecuentes (papel) --- */
+/* --- 13 · Preguntas frecuentes (terciopelo) --- */
 
 .v4 #page-root #preguntas-frecuentes .cg-section-heading h2 {
   margin-top: 0;
@@ -1972,9 +2252,9 @@ html.v4 body {
 }
 
 .v4 #page-root #preguntas-frecuentes .bo-faq-item.is-open {
-  border-color: color-mix(in srgb, var(--v4-gold-ink) 40%, transparent);
+  border-color: color-mix(in srgb, var(--s-accent) 40%, transparent);
   background: var(--s-card);
-  box-shadow: 0 12px 32px rgba(26, 22, 16, .07);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .4);
 }
 
 .v4 #page-root #preguntas-frecuentes .bo-faq-question {
@@ -2012,11 +2292,22 @@ html.v4 body {
 }
 
 
-/* --- 14 · Cierre (escena) y pie --- */
+/* --- 14 · Cierre (terciopelo esmeralda) y pie: la página termina como empieza, oro y esmeralda ---
+   El oro ilumina el titular y la oferta (el producto); la esmeralda sube desde los lados.
+   Entra fundiéndose desde el terciopelo de las preguntas y sale hacia la escena del pie. */
 
 .v4 #page-root #cierre {
+  --s-bg: var(--v4-emerald-deep);
+  --s-card: var(--v4-emerald-card);
+  --s-card-line: var(--v4-emerald-line);
+  --s-line: rgba(84, 211, 155, .14);
+  --s-gem: var(--v4-emerald-bright);
+
   background:
-    radial-gradient(ellipse 50% 40% at 50% 34%, rgba(226, 184, 79, .12), transparent 70%),
+    linear-gradient(180deg, var(--v4-velvet) 0, rgba(7, 20, 15, 0) 160px, rgba(7, 20, 15, 0) calc(100% - 160px), var(--v4-scene) 100%),
+    radial-gradient(ellipse 50% 40% at 50% 34%, rgba(226, 184, 79, .14), transparent 70%),
+    radial-gradient(ellipse 55% 45% at 10% 80%, var(--v4-emerald-glow), transparent 72%),
+    radial-gradient(ellipse 55% 45% at 90% 80%, var(--v4-emerald-glow), transparent 72%),
     var(--s-bg);
 }
 
@@ -2057,12 +2348,13 @@ html.v4 body {
   line-height: var(--lh-lead);
 }
 
+/* La oferta final es la joya: engaste de oro y halo esmeralda */
 .v4 #page-root #cierre .cg-closing__offer {
   padding: var(--space-4);
-  border: 1px solid rgba(226, 184, 79, .32);
+  border: 1px solid rgba(226, 184, 79, .45);
   border-radius: var(--r-card);
   background: var(--s-card);
-  box-shadow: 0 32px 64px rgba(0, 0, 0, .35);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, .4), 0 0 96px rgba(31, 157, 107, .2);
 }
 
 .v4 #page-root #cierre .cg-closing__offer>strong {
@@ -2078,8 +2370,22 @@ html.v4 body {
   font-weight: 500;
 }
 
+/* Cada promesa lleva su gema: lo que se cumple, en esmeralda */
+.v4 #page-root #cierre .cg-closing__promises p::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 10px;
+  background: var(--s-gem);
+  box-shadow: 0 0 6px rgba(84, 211, 155, .5);
+  vertical-align: .12em;
+  transform: rotate(45deg);
+}
+
+/* Sobre la aurora, la invitación a la alternativa usa el gris de lectura (AA garantizado) */
 .v4 #page-root #cierre .cg-closing__alternative p {
-  color: var(--s-text-3);
+  color: var(--s-text-2);
   font-size: var(--fs-body);
 }
 
@@ -2180,17 +2486,6 @@ html.js.v4 .bootcamp-event-page .cg-stagger-items>*:nth-child(8) { transition-de
 /* La luz pasa una vez: solo sobre la oferta, no sobre cada tarjeta */
 .v4 #page-root .cg-gold-sheen:not(.cg-v2-offer__card, .cg-closing__offer)::after {
   display: none;
-}
-
-/* Escena: el capítulo cambia con un fundido de entrada */
-@media (prefers-reduced-motion: no-preference) {
-  .v4 #page-root .v4-escena__frame {
-    transition: opacity var(--dur-enter) var(--ease-standard);
-  }
-
-  .v4 #page-root .v4-escena__progress span {
-    transition: background-color var(--dur-ui) var(--ease-standard);
-  }
 }
 
 /* Movimiento reducido: todo aparece en su sitio */
