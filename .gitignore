@@ -15,3 +15,11 @@ _backup_secciones_originales.zip
 
 # Entorno de agentes locales
 .agents/
+.claude/
+
+# Diseño: concepto, auditoría y capturas antes/después (solo en el equipo local)
+DISEÑOS/
+
+# Material fuente de la escena (~290 MB de vídeos, GIF y fotogramas).
+# La landing usa las versiones optimizadas de assets/img/.
+escena/
