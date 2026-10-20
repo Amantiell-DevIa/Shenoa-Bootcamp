@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Círculo Gold — Laboratorio visual</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2308090c'/%3E%3Ccircle cx='32' cy='32' r='24' fill='none' stroke='%23d9b54a' stroke-width='3'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-size='26' font-family='Arial' font-weight='700' fill='%23f3db7e'%3EC%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: dark;
+      --lab-bg: #090a0d;
+      --lab-panel: rgba(18, 20, 26, 0.94);
+      --lab-line: rgba(255, 255, 255, 0.12);
+      --lab-text: #f6f3ea;
+      --lab-muted: #a5a9b3;
+      --lab-accent: #d9b54a;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      color: var(--lab-text);
+      background: var(--lab-bg);
+      font: 500 13px/1.4 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, select, input { font: inherit; }
+
+    .lab {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      height: 100%;
+    }
+
+    .lab-toolbar {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 64px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--lab-line);
+      background: var(--lab-panel);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(18px);
+    }
+
+    .lab-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: max-content;
+      margin-right: 4px;
+    }
+
+    .lab-brand__mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(217, 181, 74, 0.5);
+      border-radius: 50%;
+      color: var(--lab-accent);
+      font-weight: 800;
+    }
+
+    .lab-brand strong,
+    .lab-brand small { display: block; }
+
+    .lab-brand small {
+      color: var(--lab-muted);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lab-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .lab-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid var(--lab-line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .lab-label {
+      padding-left: 6px;
+      color: var(--lab-muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lab-button,
+    .lab-select {
+      min-height: 32px;
+      border: 0;
+      border-radius: 7px;
+      color: var(--lab-text);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .lab-button { padding: 0 10px; }
+
+    .lab-button:hover,
+    .lab-button.is-active { background: rgba(255, 255, 255, 0.1); }
+
+    .lab-button.is-active {
+      color: #0a0b0e;
+      background: var(--lab-accent);
+    }
+
+    .lab-select {
+      max-width: 180px;
+      padding: 0 28px 0 9px;
+      outline: none;
+    }
+
+    .lab-color {
+      width: 32px;
+      height: 32px;
+      padding: 4px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .lab-canvas {
+      min-height: 0;
+      overflow: auto;
+      padding: 22px;
+      background-color: #111318;
+      background-image:
+        linear-gradient(45deg, rgba(255,255,255,.025) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,.025) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255,255,255,.025) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,.025) 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+    }
+
+    .lab-frame-shell {
+      width: min(100%, 1440px);
+      height: 100%;
+      min-height: 500px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      background: #08090c;
+      box-shadow: 0 30px 80px rgba(0,0,0,.45);
+      transition: width 240ms ease;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #08090c;
+    }
+
+    .lab-status {
+      min-width: 88px;
+      margin-left: auto;
+      color: var(--lab-muted);
+      font-size: 11px;
+      text-align: right;
+    }
+
+    @media (max-width: 1100px) {
+      .lab-toolbar { align-items: flex-start; overflow-x: auto; }
+      .lab-brand { position: sticky; left: 0; z-index: 2; padding-right: 10px; background: #12141a; }
+      .lab-controls { min-width: max-content; }
+      .lab-status { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="lab">
+    <header class="lab-toolbar" aria-label="Controles del laboratorio visual">
+      <div class="lab-brand">
+        <span class="lab-brand__mark">C</span>
+        <span><strong>Laboratorio visual</strong><small>Círculo Gold</small></span>
+      </div>
+
+      <div class="lab-controls">
+        <div class="lab-group" aria-label="Tamaño de pantalla">
+          <span class="lab-label">Vista</span>
+          <button class="lab-button is-active" type="button" data-viewport="desktop" data-width="1440" title="Escritorio">Escritorio</button>
+          <button class="lab-button" type="button" data-viewport="tablet" data-width="768" title="Tablet">Tablet</button>
+          <button class="lab-button" type="button" data-viewport="mobile" data-width="390" title="Móvil">Móvil</button>
+          <label class="lab-label" for="viewport-width">Ancho QA</label>
+          <select class="lab-select" id="viewport-width">
+            <option value="320">320 px</option>
+            <option value="360">360 px</option>
+            <option value="375">375 px</option>
+            <option value="390" selected>390 px</option>
+            <option value="430">430 px</option>
+            <option value="768">768 px</option>
+            <option value="1024">1024 px</option>
+            <option value="1366">1366 px</option>
+            <option value="1440">1440 px</option>
+            <option value="1536">1536 px</option>
+            <option value="1920">1920 px</option>
+          </select>
+        </div>
+
+        <div class="lab-group">
+          <label class="lab-label" for="theme">Estética</label>
+          <select class="lab-select" id="theme">
+            <option value="original">Original oro</option>
+            <option value="emerald">Esmeralda</option>
+            <option value="champagne">Champagne</option>
+            <option value="editorial">Editorial claro</option>
+          </select>
+          <input class="lab-color" id="accent" type="color" value="#d9b54a" title="Color de acento">
+        </div>
+
+        <div class="lab-group">
+          <label class="lab-label" for="density">Ritmo</label>
+          <select class="lab-select" id="density">
+            <option value="original">Original</option>
+            <option value="compact">Compacto</option>
+            <option value="spacious">Amplio</option>
+          </select>
+          <button class="lab-button" id="images" type="button" aria-pressed="false">Ocultar imágenes</button>
+        </div>
+
+        <div class="lab-group">
+          <label class="lab-label" for="section">Saltar a</label>
+          <select class="lab-select" id="section">
+            <option value="inicio">Cargando secciones…</option>
+          </select>
+        </div>
+
+        <div class="lab-group">
+          <button class="lab-button" id="reload" type="button">Recargar</button>
+          <button class="lab-button" id="reset" type="button">Restablecer</button>
+          <a class="lab-button" href="index.html" target="_blank" rel="noopener">Lienzo limpio ↗</a>
+        </div>
+      </div>
+
+      <div class="lab-status" id="status">Cargando…</div>
+    </header>
+
+    <section class="lab-canvas">
+      <div class="lab-frame-shell" id="frame-shell" data-viewport="desktop">
+        <iframe id="preview" src="index.html" title="Previsualización de la landing Curso"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const frame = document.querySelector('#preview');
+      const shell = document.querySelector('#frame-shell');
+      const viewportWidth = document.querySelector('#viewport-width');
+      const theme = document.querySelector('#theme');
+      const accent = document.querySelector('#accent');
+      const density = document.querySelector('#density');
+      const images = document.querySelector('#images');
+      const section = document.querySelector('#section');
+      const status = document.querySelector('#status');
+      const defaults = { theme: 'original', accent: '#d9b54a', density: 'original', hideImages: false };
+      let storedState = {};
+      try { storedState = JSON.parse(localStorage.getItem('curso-preview-state') || '{}'); } catch (error) { localStorage.removeItem('curso-preview-state'); }
+      let state = { ...defaults, ...storedState };
+
+      const send = (type, payload = {}) => frame.contentWindow?.postMessage({ source: 'curso-lab', type, ...payload }, location.origin);
+
+      function populateSections(items) {
+        if (!Array.isArray(items) || !items.length) return;
+        const selected = section.value;
+        section.replaceChildren(...items.map(item => {
+          const option = document.createElement('option');
+          option.value = item.value;
+          option.textContent = item.label;
+          return option;
+        }));
+        if (items.some(item => item.value === selected)) section.value = selected;
+      }
+
+      function applyViewport(width, sourceButton = null) {
+        const safeWidth = Math.min(1920, Math.max(320, Number(width) || 390));
+        shell.style.width = `min(100%, ${safeWidth}px)`;
+        viewportWidth.value = String(safeWidth);
+        document.querySelectorAll('[data-viewport]').forEach(item => item.classList.toggle('is-active', item === sourceButton));
+        status.textContent = `${safeWidth} px`;
+      }
+
+      function persistAndApply() {
+        localStorage.setItem('curso-preview-state', JSON.stringify(state));
+        theme.value = state.theme;
+        accent.value = state.accent;
+        density.value = state.density;
+        images.textContent = state.hideImages ? 'Mostrar imágenes' : 'Ocultar imágenes';
+        images.setAttribute('aria-pressed', String(state.hideImages));
+        images.classList.toggle('is-active', state.hideImages);
+        send('appearance', { state });
+      }
+
+      document.querySelectorAll('[data-viewport]').forEach(button => {
+        button.addEventListener('click', () => {
+          shell.dataset.viewport = button.dataset.viewport;
+          applyViewport(button.dataset.width, button);
+        });
+      });
+      viewportWidth.addEventListener('change', () => {
+        shell.dataset.viewport = 'custom';
+        applyViewport(viewportWidth.value);
+      });
+
+      theme.addEventListener('change', () => {
+        state.theme = theme.value;
+        const palette = { original: '#d9b54a', emerald: '#49c98d', champagne: '#e8c98a', editorial: '#987629' };
+        state.accent = palette[state.theme];
+        persistAndApply();
+      });
+      accent.addEventListener('input', () => { state.accent = accent.value; persistAndApply(); });
+      density.addEventListener('change', () => { state.density = density.value; persistAndApply(); });
+      images.addEventListener('click', () => { state.hideImages = !state.hideImages; persistAndApply(); });
+      section.addEventListener('change', () => {
+        const sectionUrl = new URL('index.html', location.href);
+        sectionUrl.searchParams.set('section', section.value);
+        sectionUrl.searchParams.set('_section', Date.now());
+        frame.src = sectionUrl.href;
+        status.textContent = 'Cargando sección…';
+      });
+      document.querySelector('#reload').addEventListener('click', () => {
+        const refreshUrl = new URL('index.html', location.href);
+        refreshUrl.searchParams.set('_refresh', Date.now());
+        frame.src = refreshUrl.href;
+        status.textContent = 'Recargando…';
+      });
+      document.querySelector('#reset').addEventListener('click', () => { state = { ...defaults }; persistAndApply(); });
+
+      window.addEventListener('message', event => {
+        if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
+        if (event.data?.source !== 'curso-preview') return;
+        if (event.data.type === 'ready') {
+          populateSections(event.data.sections);
+          const diagnostics = event.data.diagnostics || {};
+          status.textContent = diagnostics.overflow
+            ? 'Revisar overflow'
+            : `Listo · ${diagnostics.pendingContent || 0} pendientes`;
+          persistAndApply();
+        }
+        if (event.data.type === 'error') status.textContent = 'Error de carga';
+      });
+
+      persistAndApply();
+      applyViewport(1440, document.querySelector('[data-viewport="desktop"]'));
+    })();
+  </script>
+</body>
+</html>
