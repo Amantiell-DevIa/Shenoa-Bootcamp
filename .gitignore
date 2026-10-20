@@ -1,0 +1,25 @@
+# Archivos del sistema operativo
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Respaldos y temporales locales
+_backup_secciones_originales.zip
+*.log
+*.tmp
+*.bak
+
+# Entorno de agentes locales
+.agents/
+.claude/
+
+# Diseño: concepto, auditoría y capturas antes/después (solo en el equipo local)
+DISEÑOS/
+
+# Material fuente de la escena (~290 MB de vídeos, GIF y fotogramas).
+# La landing usa las versiones optimizadas de assets/img/.
+escena/

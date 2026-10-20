@@ -2874,13 +2874,19 @@
   initPerspectiveLens();
   initGoldValueReceipt();
   initDecisionSwitch();
-  initPageCursorGlow();
   initInsights();
   initHeroRail();
-  initHeroShimmer();
   initReveal();
-  initDesktopScrollTrack();
   setCurrentYear();
+
+  // La capa V4 (assets/css/v4.css) sustituye estos adornos: la luz que sigue al cursor,
+  // el brillo periódico del botón del héroe y la barra lateral de 14 puntos.
+  // Sin class="v4" en <html> vuelven a funcionar como antes.
+  if (!document.documentElement.classList.contains('v4')) {
+    initPageCursorGlow();
+    initHeroShimmer();
+    initDesktopScrollTrack();
+  }
 
   document.dispatchEvent(new CustomEvent('circulo-gold:ready'));
 }());
