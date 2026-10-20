@@ -252,6 +252,16 @@ html.flow-smooth {
     linear-gradient(180deg, rgba(12, 11, 9, .94) 0%, rgba(12, 11, 9, .78) 24%, rgba(12, 11, 9, .3) 50%, rgba(12, 11, 9, .25) 64%, rgba(12, 11, 9, .88) 100%);
 }
 
+/* Franja de lectura del titular: refuerza el velo donde vive el titular (entre el 18 y el 46 % del alto en
+   todos los tamaños medidos). GSAP no la anima: aunque el velo respire a mitad de la fusión, el titular
+   conserva el contraste (medido con bgcontrast.mjs en toda la escena fijada) */
+.flow-melt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 11, 9, 0) 10%, rgba(12, 11, 9, .55) 18%, rgba(12, 11, 9, .62) 36%, rgba(12, 11, 9, .55) 46%, rgba(12, 11, 9, 0) 56%);
+}
+
 /* El contenedor conserva el ancho con márgenes de la V4 (la sección ahora es flex) */
 .v4.flow-on #page-root #transformacion.flow-melt-on .cg-v2-future__layout {
   position: relative;
